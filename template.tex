@@ -28,40 +28,25 @@
 \usepackage{graphicx}
 %=================================================================
 
-\Title{Broadband RF Phased Array Design with MEEP: A 3D-Printed Open-Source RF Horn in the GHz Bandwidth}
-% MDPI internal command: Title for citation in the left column
+\Title{Broadband RF Phased Array Design with MEEP: A 3D-Printed Open-Source RF Horn in the multi-GHz Bandwidth}
 \TitleCitation{Title}
-
-% Author Orchid ID: enter ID or remove command
-\newcommand{\orcidauthorA}{0000-0003-4055-4553} % Add \orcidA{} behind the author's name
-
-% Authors, for the paper (add full first names)
+\newcommand{\orcidauthorA}{0000-0003-4055-4553}
 \Author{Jordan C. Hanson $^{1}$\orcidA{}*, Adam Wildanger$^{1}$}
-
-% MDPI internal command: Authors, for metadata in PDF
 \AuthorNames{Jordan C. Hanson, Adam Wildanger}
-
-% Author citation:  
 \AuthorCitation{Hanson, J. C.; Wildanger, A.}
-
-% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
-\address[1]{%
-$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
-
-% Contact information of the corresponding author
+\address[1]{$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
 \corres{Correspondence: jhanson2@whittier.edu}
 
-% Abstract (Do not insert blank lines, i.e. \\) 
-\abstract{A single paragraph of about 200 words maximum.}
+\abstract{Radio-frequency (RF) antenna design traditionally proceeds in four phases.  First, the RF antenna design performance is modeled with expensive and proprietary computational electromagnetism (CEM) software.  Second, the design is fabricated using expensive metal machine tools.  Third, the design performance is characterized using benchtop RF measurement tools.  Fourth, if the fabricated design does not match specifications from CEM, the design is modified and the process is repeated.  The fourth phase includes machine learning algorithms to optimize the design.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) CEM package for design and simulation, and 3D printing with conductive filament for fabrication.  Using our open process, we created a broadband RF horn antenna.  To characterize our RF horn antenna, we measured the E-plane and H-plane radiation patterns, the VSWR, and the cross-polarization ratios.  The results match our CEM calculations, indicating the RF horn performs just like a linearly polarized, broadband RF horn antenna.  We observe optimal performance in the [5.5-6] GHz bandwidth, exceeding the limits of our 6 GHz instrumentation.  The CEM-simulated bandwidth is predicted to be larger.}
 
 % Keywords
-\keyword{Computational Electromagnetism, Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
+\keyword{Computational Electromagnetism (CEM), Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
 
 \begin{document}
 
 \section{Introduction}
 
-The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper  \cite{ref-journal}.  Now citing a book reference  \cite{ref-book1,ref-book2} or other reference types  \cite{ref-unpublish,ref-url}. Please use the command  \cite{ref-proceeding,ref-thesis} for the following MDPI journals, which use author--date citation: Administrative Sciences, Arts, Behavioral Sciences, Businesses, Econometrics, Economies, Education Sciences, European Journal of Investigation in Health, Psychology and Education, Games, Genealogy, Histories, Humanities, Humans, IJFS, Journal of Intelligence, Journalism and Media, JRFM, Languages, Laws, Literature, Psychology International, Publications, Religions, Risks, Social Sciences, Tourism and Hospitality, Youth. 
+The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper  \cite{10.1088/1475-7516/2016/02/005}.  Now citing a book reference  or other reference types . Please use the command for the following MDPI journals, which use author--date citation: Administrative Sciences, Arts, Behavioral Sciences, Businesses, Econometrics, Economies, Education Sciences, European Journal of Investigation in Health, Psychology and Education, Games, Genealogy, Histories, Humanities, Humans, IJFS, Journal of Intelligence, Journalism and Media, JRFM, Languages, Laws, Literature, Psychology International, Publications, Religions, Risks, Social Sciences, Tourism and Hospitality, Youth. 
 
 \section{Materials and Methods}
 
@@ -261,70 +246,13 @@ Entry 2		& Data			& Data\\
 \section[\appendixname~\thesection]{}
 All appendix sections must be cited in the main text. In the appendices, Figures, Tables, etc. should be labeled, starting with ``A''---e.g., Figure A1, Figure A2, etc.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\isPreprints{}{% This command is only used for ``preprints''.
 \begin{adjustwidth}{-\extralength}{0cm}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-%\printendnotes[custom] % Un-comment to print a list of endnotes
 
 \reftitle{References}
 
-% \bibliography{your_external_BibTeX_file}
+\bibliography{references}
 
-%=====================================
-% References, variant B: internal bibliography
-%=====================================
-
-% ACS format
-\begin{thebibliography}{999}
-% Reference 1
-\bibitem{ref-journal}
-Author~1, T. The title of the cited article. {\em Journal Abbreviation} {\bf 2008}, {\em 10}, 142--149.
-% Reference 2
-\bibitem{ref-book1}
-Author~2, L. The title of the cited contribution. In {\em The Book Title}; Editor 1, F., Editor 2, A., Eds.; Publishing House: City, Country, 2007; pp. 32--58.
-% Reference 3
-\bibitem{ref-book2}
-Author 1, A.; Author 2, B. \textit{Book Title}, 3rd ed.; Publisher: Publisher Location, Country, 2008; pp. 154--196.
-% Reference 4
-\bibitem{ref-unpublish}
-Author 1, A.B.; Author 2, C. Title of Unpublished Work. \textit{Abbreviated Journal Name} year, \textit{phrase indicating stage of publication (submitted; accepted; in press)}.
-% Reference 5
-\bibitem{ref-url}
-Title of Site. Available online: URL (accessed on Day Month Year).
-% Reference 6
-\bibitem{ref-proceeding}
-Author 1, A.B.; Author 2, C.D.; Author 3, E.F. Title of presentation. In Proceedings of the Name of the Conference, Location of Conference, Country, Date of Conference (Day Month Year); Abstract Number (optional), Pagination (optional).
-% Reference 7
-\bibitem{ref-thesis}
-Author 1, A.B. Title of Thesis. Level of Thesis, Degree-Granting University, Location of University, Date of Completion.
-\end{thebibliography}
-
-% If authors have biography, please use the format below
-%\section*{Short Biography of Authors}
-%\bio
-%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author1.pdf}}}
-%{\textbf{Firstname Lastname} Biography of first author}
-%
-%\bio
-%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author2.jpg}}}
-%{\textbf{Firstname Lastname} Biography of second author}
-
-% For the MDPI journals use author-date citation, please follow the formatting guidelines on http://www.mdpi.com/authors/references
-% To cite two works by the same author: \citeauthor{ref-journal-1a} (\citeyear{ref-journal-1a}, \citeyear{ref-journal-1b}). This produces: Whittaker (1967, 1975)
-% To cite two works by the same author with specific pages: \citeauthor{ref-journal-3a} (\citeyear{ref-journal-3a}, p. 328; \citeyear{ref-journal-3b}, p.475). This produces: Wong (1999, p. 328; 2000, p. 475)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% for journal Sci
-%\reviewreports{\\
-%Reviewer 1 comments and authors’ response\\
-%Reviewer 2 comments and authors’ response\\
-%Reviewer 3 comments and authors’ response
-%}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \PublishersNote{}
-%\isPreprints{}{% This command is only used for ``preprints''.
 \end{adjustwidth}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
 \end{document}
 
