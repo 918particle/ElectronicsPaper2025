@@ -37,7 +37,7 @@
 \address[1]{$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
 \corres{Correspondence: jhanson2@whittier.edu}
 
-\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive and proprietary computational electromagnetism (CEM) software.  Second, the design is fabricated using expensive metal machine tools.  Third, the fabricated design is characterized using benchtop RF measurement tools.  The traditional process can include machine learning algorithms for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) CEM package for design and simulation, and 3D printing with conductive filament for fabrication.  Following this process, we designed and fabricated an RF horn antenna.  To characterize our design, we show that the E-plane and H-plane radiation patterns, the VSWR, and the cross-polarization ratios match our CEM calculations.  These results indicate that our design performs just like a linearly polarized, broadband RF horn antenna in the [5.5-6] GHz bandwidth.  Because the bandwidth of our instrumenation is limited to 6 GHz, and because our CEM calculations predict good performance above 6 GHz, we conclude the bandwidth of our printed design extends above 6 GHz.  Future work will include expanding to lower bandwidth by fabricating larger RF horns, and fabricating a broadband RF phased array.}
+\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive and proprietary computational electromagnetism (CEM) software.  Second, the design is fabricated using intricate metal machining.  Third, the fabricated design is characterized using benchtop RF measurement tools.  The traditional process can include machine learning algorithms for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) CEM package for design and simulation, and 3D printing with conductive filament for fabrication.  Using this process, we designed and fabricated an exponentially curved RF horn antenna.  To characterize our design, we show that the E-plane and H-plane radiation patterns, the VSWR, and the cross-polarization ratios match our CEM calculations.  These results indicate that our design is a linearly polarized, broadband RF horn antenna in the [5.5-6] GHz bandwidth.  The bandwidth of our instrumenation is limited to 6 GHz, and our CEM calculations predict good performance above 6 GHz.  We therefore conclude the bandwidth of our printed design extends above 6 GHz.  Future work will include expanding to lower bandwidth by 3D printing larger antennas, and constructing a broadband RF phased array.}
 
 % Keywords
 \keyword{Computational Electromagnetism (CEM), Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
@@ -46,40 +46,51 @@
 
 \section{Introduction}
 
-Broadband RF antennas are ubiquitous tools within scientific instrumentation and communication applications.  Traditionally, RF antennas are designed using expensive, proprietary software packages, like XFDTD and HFSS \cite{hfss,xfdtd}.  Designs are fabricated by cutting and shaping metal with precision machine tools.  This technique is sometimes called \textit{subtractive manufacturing}, as opposed to \textit{additive manufacturing.}  Compared to \textit{additive manufacturing} techniques, subtractive manufacturing can be costly \cite{segoviaguerrero2025additive-29b,add_vs_sub}.  Open-source additive manufacturing would boost cost efficiency in RF antenna design and fabrication.
+Broadband RF antennas are ubiquitous tools within scientific instrumentation and communication applications.  Traditionally, RF antennas are designed using expensive, proprietary software packages, like XFDTD and HFSS \cite{hfss,xfdtd}.  Designs are fabricated by cutting and shaping metal with precision machine tools.  This technique is sometimes called \textit{subtractive manufacturing}, as opposed to \textit{additive manufacturing.}  Compared to \textit{additive manufacturing} techniques, subtractive manufacturing can be costly \cite{segoviaguerrero2025additive-29b,add_vs_sub}.  Open-source additive manufacturing boosts cost efficiency in both the design and fabrication of RF antennas, provided that the 3D printing filament has sufficient conductivity.
 
-Previously, J. C. Hanson (2021) demonstrated that the MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  Specifically, the author of \cite{hanson2021broadband-cab} produced RF phased array designs in two and three dimensions using MEEP code.  The designs included broadband RF horn elements in the [0.5-5] GHz bandwidth.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D-printed \cite{meepcon_hanson}.
+Development of new RF antenna designs requires exploration of conductor shapes that set the boundary conditions for radiated signals.  Developing new conductor shapes that meet design requirements has been aided by machine learning (ML) strategies \cite{gajbhiye2025comprehensive-fdb,goudos2016evolutionary-cc7,linden1999evolving-8c2}.  While mixing new ML algorithms into open CEM code is straightforward, incorporating them into proprietary software is often challenging and time-consuming.  Ideally, RF engineers would take advantage of the functionality of proprietary software to compute standard RF antenna metrics like radiation patterns and VSWR, while retaining the flexibility to incorporate new ML techniques.  Determining how to use open CEM tools to compute standard RF antenna metrics gives RF engineers both necessary functionality and flexibility.
+
+Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  Specifically, the author of \cite{hanson2021broadband-cab} produced RF phased array designs in two and three dimensions using MEEP code.  The designs included broadband RF horn elements in the [0.5-5] GHz bandwidth.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D-printed \cite{meepcon_hanson}.
+
+In this work, we present the first open-source broadband RF horn designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the CEM design (Sec. \ref{sec:mat_meth_1}), open-source CAD (Sec. \ref{sec:mat_meth_2}), and fabrication technique (Sec. \ref{sec:mat_meth_3}).  In Sec. \ref{sec:results}, we show that the E-plane and H-plane radiation patterns (Sec. \ref{sec:results_1}), the VSWR (Sec. \ref{sec:results_2}), and the cross-polarization ratios (Sec. \ref{sec:results_3}) match our CEM calculations.  In Sec. \ref{sec:disc}, we discuss the limitations of our analysis, applications of the results, and future research directions.  In Sec. \ref{sec:conc}, we summarize our key results.
 
 \section{Materials and Methods}
+\label{sec:mat_meth}
 
-Materials and Methods should be described with sufficient details to allow others to replicate and build on published results. Please note that publication of your manuscript implicates that you must make all materials, data, computer code, and protocols associated with the publication available to readers. Please disclose at the submission stage any restrictions on the availability of materials or information. New methods and protocols should be described in detail while well-established methods can be briefly described and appropriately cited.
+Materials and Methods should be described with sufficient details to allow others to replicate and build on published results.
 
-Research manuscripts reporting large datasets that are deposited in a publicly avail-able database should specify where the data have been deposited and provide the relevant accession numbers. If the accession numbers have not yet been obtained at the time of submission, please state that they will be provided during review. They must be provided prior to publication.
+\subsection{CEM Design}
+\label{sec:mat_meth_1}
 
-Interventionary studies involving animals or humans, and other studies require ethical approval must list the authority that provided approval and the corresponding ethical approval code.
+things.
 
-In this section, where applicable, authors are required to disclose details of how gen-erative artificial intelligence (GenAI) has been used in this paper (e.g., to generate text, data, or graphics, or to assist in study design, data collection, analysis, or interpretation). The use of GenAI for superficial text editing (e.g., grammar, spelling, punctuation, and formatting) does not need to be declared.
+\subsection{Open-Source CAD}
+\label{sec:mat_meth_2}
+
+things.
+
+\subsection{Fabrication Technique}
+\label{sec:mat_meth_3}
+
+things.
 
 \section{Results}
+\label{sec:results}
 
-This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
+This section gives results
 
-\subsection{Subsection}
-\subsubsection{Subsubsection}
+\subsection{Radiation Patterns}
+\label{sec:results_1}
 
-Bulleted lists look like this:
-\begin{itemize}
-\item	First bullet;
-\item	Second bullet;
-\item	Third bullet.
-\end{itemize}
+The text continues here.
 
-Numbered lists can be added as follows:
-\begin{enumerate}
-\item	First item; 
-\item	Second item;
-\item	Third item.
-\end{enumerate}
+\subsection{The VSWR}
+\label{sec:results_2}
+
+The text continues here.
+
+\subsection{Cross-Polarization Ratios}
+\label{sec:results_3}
 
 The text continues here.
 
@@ -94,117 +105,35 @@ All figures and tables should be cited in the main text as Figure~\ref{fig1}, Ta
 \unskip
 
 \begin{table}[H] 
-%\small % Change table font size
 \caption{This is a table caption. Tables should be placed in the main text near to the first time they are~cited.\label{tab1}}
-%\isPreprints{\centering}{} % Only used for preprints
 \begin{tabularx}{\textwidth}{CCC}
 \toprule
 \textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}\\
 \midrule
-Entry 1		& Data			& Data\\
-Entry 2		& Data			& Data \textsuperscript{1}\\
+Entry 1	& Data & Data\\
+Entry 2	& Data & Data \textsuperscript{1}\\
 \bottomrule
 \end{tabularx}
-
 \noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
 \end{table}
 
 The text continues here (Figure~\ref{fig2} and Table~\ref{tab2}).
 
-% Example of a figure that spans the whole page width and with subfigures. The same concept works for tables, too.
-\begin{figure}[H]
-%\isPreprints{}{% This command is only used for ``preprints''.
-\begin{adjustwidth}{-\extralength}{0cm}
-\centering
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-\subfloat[\centering]{\includegraphics[width=7.0cm]{Definitions/logo-mdpi}}
-%\hfill
-\subfloat[\centering]{\includegraphics[width=7.0cm]{Definitions/logo-mdpi}}\\
-\subfloat[\centering]{\includegraphics[width=7.0cm]{Definitions/logo-mdpi}}
-%\hfill
-\subfloat[\centering]{\includegraphics[width=7.0cm]{Definitions/logo-mdpi}}
-%\isPreprints{}{% This command is only used for ``preprints''.
-\end{adjustwidth}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-\caption{This is a wide figure. Schemes follow the same formatting. If there are multiple panels, they should be listed as: (\textbf{a}) Description of what is contained in the first panel. (\textbf{b}) Description of what is contained in the second panel. (\textbf{c}) Description of what is contained in the third panel. (\textbf{d}) Description of what is contained in the fourth panel. Figures should be placed in the main text near to the first time they are cited. A caption on a single line should be centered.\label{fig2}}
-\end{figure} 
-
-\begin{table}[H]
-\caption{This is a wide table.\label{tab2}}
-%\isPreprints{\centering}{% This command is only used for ``preprints''.
-	\begin{adjustwidth}{-\extralength}{0cm}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-%\isPreprints{\begin{tabularx}{\textwidth}{CCCC}}{% This command is only used for ``preprints''.
-		\begin{tabularx}{\fulllength}{CCCC}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-			\toprule
-			\textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}     & \textbf{Title 4}\\
-			\midrule
-\multirow[m]{3}{*}{Entry 1 *}	& Data			& Data			& Data\\
-			  	                   & Data			& Data			& Data\\
-			             	      & Data			& Data			& Data\\
-                   \midrule
-\multirow[m]{3}{*}{Entry 2}    & Data			& Data			& Data\\
-			  	                  & Data			& Data			& Data\\
-			             	     & Data			& Data			& Data\\
-			\bottomrule
-		\end{tabularx}
-%		\isPreprints{}{% This command is only used for ``preprints''.
-	\end{adjustwidth}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-	\noindent{\footnotesize{* Tables may have a footer.}}
-\end{table}
-
-\subsection{Formatting of Mathematical Components}
-
-This is the example 1 of equation:
-\begin{linenomath}
-\begin{equation}
-a = 1,
-\end{equation}
-\end{linenomath}
-the text following an equation need not be a new paragraph. Please punctuate equations as regular text.
-%% If the documentclass option "submit" is chosen, please insert a blank line before and after any math environment (equation and eqnarray environments). This ensures correct linenumbering. The blank line should be removed when the documentclass option is changed to "accept" because the text following an equation should not be a new paragraph.
-
-This is the example 2 of equation:
-%\isPreprints{}{% This command is only used for ``preprints''.
-\begin{adjustwidth}{-\extralength}{0cm}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-\begin{equation}
-a = b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u + v + w + x + y + z
-\end{equation}
-%\isPreprints{}{% This command is only used for ``preprints''.
-\end{adjustwidth}
-%} % If the paper is ``preprints'', please uncomment this parenthesis.
-
-
-Please punctuate equations as regular text. Theorem-type environments (including propositions, lemmas, corollaries etc.) can be formatted as follows:
-%% Example of a theorem:
-\begin{Theorem}
-Example text of a theorem.
-\end{Theorem}
-
-The text continues here. Proofs must be formatted as follows:
-
-%% Example of a proof:
-\begin{proof}[Proof of Theorem 1]
-Text of the proof. Note that the phrase ``of Theorem 1'' is optional if it is clear which theorem is being referred to.
-\end{proof}
-The text continues here.
-
 \section{Discussion}
+\label{sec:disc}
 
-Authors should discuss the results and how they can be interpreted from the perspective of previous studies and of the working hypotheses. The findings and their implications should be discussed in the broadest context possible. Future research directions may also be highlighted.
+Authors should discuss the results and how they can be interpreted from the perspective of previous studies and of the working hypotheses.
 
 \section{Conclusions}
+\label{sec:conc}
 
 This section is not mandatory, but can be added to the manuscript if the discussion is unusually long or complex.
 
 \vspace{6pt} 
 
-\authorcontributions{For research articles with several authors, a short paragraph specifying their individual contributions must be provided. The following statements should be used ``Conceptualization, X.X. and Y.Y.; methodology, X.X.; software, X.X.; validation, X.X., Y.Y. and Z.Z.; formal analysis, X.X.; investigation, X.X.; resources, X.X.; data curation, X.X.; writing---original draft preparation, X.X.; writing---review and editing, X.X.; visualization, X.X.; supervision, X.X.; project administration, X.X.; funding acquisition, Y.Y. All authors have read and agreed to the published version of the manuscript.'', please turn to the  \href{http://img.mdpi.org/data/contributor-role-instruction.pdf}{CRediT taxonomy} for the term explanation. Authorship must be limited to those who have contributed substantially to the work~reported.}
+\authorcontributions{J. C. Hanson conceived of the open-source design process and produced the initial MEEP calculations that led to the RF horn design, including a previous publication in \textit{Electronics Journal}.  J. C. Hanson also identified the conductive 3D printer filament with sufficient conductivity to fabricate RF antennas.  J. C. Hanson also demonstrated that open-source CAD can be incorporated into the process.  Finally, J. C. Hanson produced fully three-dimensional CEM models using MEEP to compute the VSWR and radiation patterns for the fabricated designs.  A. Wildanger sourced materials, and imported CAD designs into 3D printing format.  A. Wildanger successfully completed 3D prints to produce the designs.  Together, J. C. Hanson and A. Wildanger collected data using the RF measurement tools.  J. C. Hanson used the data to show that the MEEP calculations match the lab measurements.}
 
-\funding{Please add: ``This research received no external funding'' or ``This research was funded by NAME OF FUNDER grant number XXX.'' and  and ``The APC was funded by XXX''. Check carefully that the details given are accurate and use the standard spelling of funding agency names at \url{https://search.crossref.org/funding}, any errors may affect your future funding.}
+\funding{This research was funded by NAME OF FUNDER grant number XXX.}
 
 \dataavailability{We encourage all authors of articles published in MDPI journals to share their research data. In this section, please provide details regarding where data supporting reported results can be found, including links to publicly archived datasets analyzed or generated during the study. Where no new data were created, or where data is unavailable due to privacy or ethical restrictions, a statement is still required. Suggested Data Availability Statements are available in section ``MDPI Research Data Policies'' at \url{https://www.mdpi.com/ethics}.} 
 
