@@ -52,19 +52,19 @@ Development of new RF antenna designs requires exploration of conductor shapes t
 
 Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  Specifically, the author of \cite{hanson2021broadband-cab} produced RF phased array designs in two and three dimensions using MEEP code.  The designs included broadband RF horn elements in the [0.5-5] GHz bandwidth.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D-printed \cite{meepcon_hanson}.
 
-In this work, we present the first open-source broadband RF horn designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the CEM design (Sec. \ref{sec:mat_meth_1}), open-source CAD (Sec. \ref{sec:mat_meth_2}), and fabrication technique (Sec. \ref{sec:mat_meth_3}).  In Sec. \ref{sec:results}, we show that the E-plane and H-plane radiation patterns (Sec. \ref{sec:results_1}), the VSWR (Sec. \ref{sec:results_2}), and the cross-polarization ratios (Sec. \ref{sec:results_3}) match our CEM calculations.  In Sec. \ref{sec:disc}, we discuss the limitations of our analysis, applications of the results, and future research directions.  In Sec. \ref{sec:conc}, we summarize our key results.
+In this work, we present the first open-source broadband RF horn designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the CEM design and open-source CAD (Secs. \ref{sec:mat_meth_1}-\ref{sec:mat_meth_2}), and fabrication technique (Sec. \ref{sec:mat_meth_3}).  In Sec. \ref{sec:results}, we show that the E-plane and H-plane radiation patterns (Sec. \ref{sec:results_1}), the VSWR (Sec. \ref{sec:results_2}), and the cross-polarization ratios (Sec. \ref{sec:results_3}) match predictions.  In Sec. \ref{sec:disc}, we discuss the limitations of our analysis, applications of the results, and future research directions.  In Sec. \ref{sec:conc}, we summarize our key results.
 
-\section{Materials and Methods}
+\section{Methods and Materials}
 \label{sec:mat_meth}
 
 The goal of this work was to use open CEM tools to design, model, and fabricate a linearly polarized, broadband RF horn antenna in the multi-GHz bandwidth.  We selected MEEP for our open CEM tools.  Over the past decade, MEEP has most often been used to design and model photonics systems \cite{hammond2022highperformance-057,majumder2017ultracompact-0fc}.  However, due to the scale-invariance of Maxwell's equations, MEEP may be used to model electromagnetic propagation with wavelengths at the cm-scale \cite{hanson2021broadband-cab,meepcon_hanson}.  Further, antenna designs created with open CAD tools like kLayout can be imported into MEEP.  Using parametric CAD design, we can specify antenna shapes using analytic functions that are then translated into kLayout and MEEP.  Designs in kLayout can also be translated into 3D printer files, ensuring we are simulating the same device we are fabricating.
 
 Our open fabrication technique hinges on the existence of commerically available conductive 3D printer filament.  Multi3D\footnote{See \url{https://www.multi3dllc.com}} has shown that a copper-doped thermoplastic serves as a 3D printer filament with conductivities of $\approx 10^{-1}$ $\Omega$ cm, depending on the printing pattern.  Using a ruby-tipped 3D printing head and Electrifi filament from Multi3D, we can complete antenna prints on the scale of 16 cm in length in several hours.  The printed structures are fitted with RF connectors and tested with a network analyzer, standardized metal antennas, and custom mounts.  Figure \ref{fig:1} (left) contains a flow diagram for the design and fabrication process.
 
-\subsection{CEM Design}
+\subsection{CEM Design and Open-Source CAD}
 \label{sec:mat_meth_1}
 
-The open-source CEM design begins with choosing parametric design parameters for the exponential RF horn.  The horn \textit{cavity} is the rectangular volume where the coaxial cable attaches.  The horn \textit{surfaces} are the curved structures that connect the cavity to open space.  The \textit{opening} is the area where the \textit{surfaces} stop and radiation exits the horn.  Let the origin of an $xy$ coordinate system refer to the center of the outside of the cavity.  The kLayout design of the RF horn is shown in Figure \ref{fig:1}.  Let $c_l$ refer to the cavity length in the $x$-direction, $c_w$ refer to the cavity width in the $y$-direction, $s_l$ refer to the surface length in the $x$-direction, and $w$ refer to the opening width in the $y$-direction.  Using these variables, Equations \ref{eq:1} and \ref{eq:2} specify the shape of the RF horn surfaces in the $xy$-plane:
+The kLayout design of the RF horn is shown in Figure \ref{fig:1}.  The open-source CEM design begins with choosing parametric design parameters for the exponential RF horn.  The horn \textit{cavity} is the rectangular volume where the coaxial cable attaches.  The horn \textit{surfaces} are the curved structures that connect the cavity to open space.  The \textit{opening} is the area where the \textit{surfaces} stop and radiation exits the horn.  Let the origin of an $xy$ coordinate system refer to the center of the outside of the cavity.  Let $c_l$ refer to the cavity length in the $x$-direction, $c_w$ refer to the cavity width in the $y$-direction, $s_l$ refer to the surface length in the $x$-direction, and $w$ refer to the opening width in the $y$-direction.  Using these variables, Equations \ref{eq:1} and \ref{eq:2} specify the shape of the RF horn surfaces in the $xy$-plane:
 
 \begin{align}
 f(x) &= \frac{c_w}{2}\exp(k(x-c_l)) \label{eq:1} \\
@@ -72,9 +72,10 @@ k &= (s_l-c_l)^{-1} \ln\left(\frac{w}{c_w}\right) \label{eq:2}
 \end{align}
 
 \noindent
-The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Figure \ref{fig1}, while $-f(x)$ describes the lower surface.  Table \ref{tab:1} contains the values for $c_l$, $c_w$, $s_l$, and $w$ corresponding to our first 3D printed RF horn.  Manipulating the parameters in Table \ref{tab:1} to determine the effect on simulated and measured antenna performance is a form of \textit{parametric design.}
+The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Figure \ref{fig:1}, while $-f(x)$ describes the lower surface.  Table \ref{tab:1} contains the values for $c_l$, $c_w$, $s_l$, and $w$ corresponding to our first 3D printed RF horn.  The horn is designed to be linearly polarized in the $y$-direction.
 
 \begin{figure}
+\centering
 \includegraphics[width=0.65\textwidth]{CAD_path.pdf}
 \includegraphics[width=0.34\textwidth]{CAD_1.png}
 \caption{\label{fig:1} (Left) Flow diagram for the open-source design and fabrication process.  (Right) The kLayout CAD design for the RF horn (top view), with a coaxial cable attached.  The $x$-direction is to the right, the $y$-direction is up, and the $z$-direction is out of the page.}
@@ -84,15 +85,98 @@ The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Figure
 \caption{\label{tab:1} Design parameters for the RF horn antenna.}
 \begin{tabularx}{\textwidth}{CCC}
 \toprule
-\textbf{Parameter} & \textbf{Value [cm]} & \textbf{Variable Name} \\
+\textbf{Parameter} & \textbf{Variable Name} & \textbf{Value [cm]} \\
 \midrule
-Cavity Length & 0.77 & $c_l$ \\
-Cavity Width & 1.00 & $c_w$ \\
-Surface Length & 16.52 & $s_l$ \\
-Opening Width & 9.59 & $w$ \\
+Cavity Length & $c_l$ & 0.77 \\
+Cavity Width & $c_w$ & 1.00 \\
+Surface Length & $s_l$ & 16.52 \\
+Opening Width & $w$ & 9.59 \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+In previous studies \cite{hanson2021broadband-cab}, antenna structures were instantiated as native MEEP objects.  For example, the following Python3 code with the Meep library imported as \verb+mp+ adds $N$ 2D exponential horns to the overall geometry via the \verb+mp.Block()+ method:
+
+\small
+\begin{verbatim}
+for j in range(0,n_antenna):
+    y = j*d_y+y0
+    #Describe the cavity
+    cav_back_location = mp.Vector3(x0,y)
+    cav_location_pos = mp.Vector3(c_l/2.0+x0,c_w/2.0+y)
+    cav_location_neg = mp.Vector3(c_l/2.0+x0,-c_w/2.0+y)
+    backplate = mp.Block(backplate_size,center=cav_back_location,material=mp.metal)
+    cav_upper = mp.Block(side_plate_size,center=cav_location_pos,material=mp.metal)
+    cav_lower = mp.Block(side_plate_size,center=cav_location_neg,material=mp.metal)
+    geometry.append(cav_upper)
+    geometry.append(cav_lower)
+    geometry.append(backplate)
+    #Describe the horn surfaces
+    size_upper = mp.Vector3(dx,thickness)
+    size_lower = mp.Vector3(dx,thickness)
+    for i in range(0,n_slices):
+        center_upper = mp.Vector3(i*dx+c_l+x0,c_w/2*np.exp(k*(i*dx-c_l))+y)
+        center_lower = mp.Vector3(i*dx+c_l+x0,-c_w/2*np.exp(k*(i*dx-c_l))+y)
+        geometry.append(mp.Block(size_upper,center=center_upper,material=mp.metal))
+        geometry.append(mp.Block(size_lower,center=center_lower,material=mp.metal))
+\end{verbatim}
+\normalsize
+
+\noindent
+With appropriate constants defined, this code creates a one-dimensional phased array of 2D RF horns with MEEP conductors.  There are two advantages to this \textit{parametric design}: is that it is fast and simple to code, and no other tools or programs outside of MEEP are required.  Structures can be quickly modified by exploring the parameter space defined by the constants in Table. \ref{tab:1}.  The disadvantage is that complex structures must be assembled from simple ones with little intuition or visualization.  Using open CAD programs like kLayout, however, allow the RF engineer to design antenna structures visually before importing them into MEEP.  By introducing open-source CAD, the same structures given to the CEM modeling can be given to the 3D printing system.
+
+Ideally, the advantages of parametric design and open-source CAD should be preserved.  First, we print the vertices of the antenna structures from our Python3 code.  Second, we create polygons in kLayout, with initial lists of vertices.  Finally, we copy the vertices from Python3 code into the kLayout polygons.  This procedure results in 2D structures like those shown in Figure \ref{fig:1} (right).  Figure \ref{fig:1} (right) is a design of the RF horn in the $xy$-plane, and we give the design height and thickness in the $z$-direction after importing it to MEEP.  MEEP accepts the GDSII file format produced by kLayout, and GDSII files can be converted to STL files suitable for PrusaSlicer and other 3D printing software.
+
+\subsubsection{Radiation Pattern Calculations}
+
+We compute the antenna radiation pattern in MEEP using near-to-far field projection\footnote{See \url{https://meep.readthedocs.io/en/master/Python_Tutorials/Near_to_Far_Field_Spectra}}.  First, a \verb+NearToFarRegion+ is created to fully enclose the structure, similar to a Gaussian surface in classical electrodynamics.  Second, the \verb+get_farfield()+ function computes the $\mathbf{E}$ and $\mathbf{H}$ fields a distance $r$ from the origin.  In Figure \ref{fig:1}, the $xy$-plane is the $\mathbf{E}$-plane, and the $xz$-plane is the $\mathbf{H}$-plane.  We chose $r=10$ meters in our calculations, given the dimensions of the horn (Table. \ref{tab:1}) and $\approx 1$ cm wavelengths.  Third, we compute the normalized Poynting vector along the $\mathbf{E}$ and $\mathbf{H}$-planes.  The following code produces the normalized radiation pattern in dB, with MEEP as \verb+mp+, NumPy as \verb+np+, and \verb+proj_box+ as the \verb+NearToFarRegion+:
+
+\small
+\begin{verbatim}
+def calculate_E_plane_rad_patt(sim,proj_box):
+    r = 1000
+    npts = 360
+    E = np.zeros((npts,3),dtype=np.complex128)
+    H = np.zeros((npts,3),dtype=np.complex128)
+    angles = 2*np.pi/npts*np.arange(npts)
+    for n in range(npts):
+        x = r*np.cos(angles[n])
+        y = r*np.sin(angles[n])
+        ff = sim.get_farfield(proj_box,mp.Vector3(x,y,0))
+        E[n,:] = [ff[j] for j in range(3)]
+        H[n,:] = [ff[j+3] for j in range(3)]
+    Px = np.real(np.conj(E[:,1])*H[:,2]-np.conj(E[:,2])*H[:,1])
+    Py = np.real(np.conj(E[:,2])*H[:,0]-np.conj(E[:,0])*H[:,2])
+    Pr = np.sqrt(np.square(Px) + np.square(Py))
+    directivity = 10.0*np.log10(Pr/max(Pr))
+    return (angles,directivity)
+\end{verbatim}
+\normalsize
+
+\noindent
+To obtain the radiation pattern from near-to-far field projection, the MEEP simulation must be run such that a sufficient amount of the radiation has passed through the \verb+NearToFarField+ region.
+
+\subsubsection{VSWR Calculations}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.33\textwidth,trim=0cm 25cm 20cm 0cm,clip=true]{CAD_1.png}
+\includegraphics[width=0.33\textwidth,trim=0cm 6cm 20cm 19cm,clip=true]{CAD_1.png}
+\caption{\label{fig:2} (Left) The upper left region of \ref{fig:1}.  The purple region is the radiating source used for VSWR analysis, the red regions are dielectric material, and the light blue regions are conductors.  The combined structure represents a coaxial cable.  (Right)  The lower left region of \ref{fig:1}.  The coaxial cable reaches the horn cavity, shown in light blue.  The dark blue regions are the beginning of the horn surfaces.  The pink structure in the center is the radiation source used for radiation pattern analysis.}
+\end{figure}
+
+The voltage standing wave radio (VSWR) is a standard figure of merit in RF antenna characterization.  The VSWR may be expressed in terms of the complex reflection coefficient, $\Gamma$, between coaxial line and RF antenna input port:
+
+\begin{equation}
+VSWR = \frac{1+|\Gamma|}{1-|\Gamma|} \label{eq:3}
+\end{equation}
+
+\noindent
+Our strategy to calculate the VSWR is to send a pulse signal down a model for a coaxial cable, and measure $\Gamma$.  This strategy is based on MEEP \verb+FluxRegion+ objects, similar to the \verb+NearToFarRegion+ objects in the previous section\footnote{See \url{https://meep.readthedocs.io/en/master/Python_Tutorials/GDSII_Import}.}.
+
+Figure \ref{fig:2} (left) shows the upper left region of the RF horn CAD, depicting the radiation source within the structure representing the coaxial cable.  The coaxial cable model is built from outer conductors, dielectric materials, and an inner conductor with a radiating source polarized radially.  While the radiation pattern analysis uses a continuous-wave (CW) source, the source in our VSWR analysis is given a custom Gaussian signal with a broadband spectrum.  In the middle of the cable, a MEEP \verb+FluxRegion+ is instantiated.  Simular to a \verb+NearToFarRegion+, the \verb+FluxRegion+ records electromagnetic flux through a geometric region, simular to a Gaussian surface in classical electrodynamics.  Both MEEP classes can record flux at multiple frequencies.  In our CW radiation pattern analysis, we set the \verb+NearToFarRegion+ frequency to the source frequency.  In our VSWR analysis, we chose 1024 frequency bins centered on 5 GHz and passed them to the \verb+FluxRegion+.
+
+The reflection coefficient $\Gamma$ is measured in two stages.  First, the MEEP simulation is run for a time corresponding to the length of the coaxial cable, accounting for the speed of propagation given the dielectric material.  The input flux is recorded, and the simulation is reset.  The simulation is run a second time, but the input flux is multiplied by $-1$ and pre-loaded into the \verb+FluxRegion+.  The simulation is run for a factor of 2 longer, so that any reflections from the RF antenna have time to reach the \verb+FluxRegion+ a second time.  The \verb+FluxRegion+ records the output flux, having already cancelled the input flux from the pre-loaded opposite input flux.  Thus, using one \verb+FluxRegion+, the ratio of output to input flux, $\Gamma$, can be calculated.  The VSWR ratio (Equation \ref{eq:3}) is formed and converted to dB.
 
 \subsection{Open-Source CAD}
 \label{sec:mat_meth_2}
@@ -124,31 +208,6 @@ The text continues here.
 
 The text continues here.
 
-\subsection{Figures, Tables and Schemes}
-
-All figures and tables should be cited in the main text as Figure~\ref{fig1}, Table~\ref{tab1}, etc.
-
-\begin{figure}[H]
-\includegraphics[width=4.0 cm]{Definitions/logo-mdpi}
-\caption{This is a figure. Schemes follow the same formatting.\label{fig1}}
-\end{figure}   
-\unskip
-
-\begin{table}[H] 
-\caption{This is a table caption. Tables should be placed in the main text near to the first time they are~cited.\label{tab1}}
-\begin{tabularx}{\textwidth}{CCC}
-\toprule
-\textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}\\
-\midrule
-Entry 1	& Data & Data\\
-Entry 2	& Data & Data \textsuperscript{1}\\
-\bottomrule
-\end{tabularx}
-\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-The text continues here (Figure~\ref{fig2} and Table~\ref{tab2}).
-
 \section{Discussion}
 \label{sec:disc}
 
@@ -161,24 +220,27 @@ This section is not mandatory, but can be added to the manuscript if the discuss
 
 \vspace{6pt} 
 
-\authorcontributions{J. C. Hanson conceived of the open-source design process and produced the initial MEEP calculations that led to the RF horn design, including a previous publication in \textit{Electronics Journal}.  J. C. Hanson also identified the conductive 3D printer filament with sufficient conductivity to fabricate RF antennas.  J. C. Hanson also demonstrated that open-source CAD can be incorporated into the process.  Finally, J. C. Hanson produced fully three-dimensional CEM models using MEEP to compute the VSWR and radiation patterns for the fabricated designs.  A. Wildanger sourced materials, and imported CAD designs into 3D printing format.  A. Wildanger successfully completed 3D prints to produce the designs.  Together, J. C. Hanson and A. Wildanger collected data using the RF measurement tools.  J. C. Hanson used the data to show that the MEEP calculations match the lab measurements.}
+\authorcontributions{J. C. Hanson conceived of the open-source design process and produced the initial MEEP calculations that led to the RF horn design, including a previous publication in \textit{Electronics Journal}.  J. C. Hanson identified the conductive 3D printer filament with sufficient conductivity to fabricate RF antennas.  J. C. Hanson demonstrated that open-source CAD can be incorporated into the process.  Finally, J. C. Hanson produced fully three-dimensional CEM models using MEEP to compute the VSWR and radiation patterns for the fabricated designs.  A. Wildanger sourced materials, and imported CAD designs into 3D printing format.  A. Wildanger successfully completed 3D prints to produce the designs.  Together, J. C. Hanson and A. Wildanger collected data using the RF measurement tools.  J. C. Hanson used the data to show that the MEEP calculations match the lab measurements.  A. Wildanger explored new models to be printed using open-source and free CAD programs, including larger RF horn models.}
 
 \funding{This research was funded by NAME OF FUNDER grant number XXX.}
 
-\dataavailability{We encourage all authors of articles published in MDPI journals to share their research data. In this section, please provide details regarding where data supporting reported results can be found, including links to publicly archived datasets analyzed or generated during the study. Where no new data were created, or where data is unavailable due to privacy or ethical restrictions, a statement is still required. Suggested Data Availability Statements are available in section ``MDPI Research Data Policies'' at \url{https://www.mdpi.com/ethics}.} 
+\dataavailability{We encourage all authors of articles published in MDPI journals to share their research data. } 
 
-\acknowledgments{In this section you can acknowledge any support given which is not covered by the author contribution or funding sections. This may include administrative and technical support, or donations in kind (e.g., materials used for experiments). Where GenAI has been used for purposes such as generating text, data, or graphics, or for study design, data collection, analysis, or interpretation of data, please add “During the preparation of this manuscript/study, the author(s) used [tool name, version information] for the purposes of [description of use]. The authors have reviewed and edited the output and take full responsibility for the content of this publication.”}
+\acknowledgments{Acknowledge Lisa Newton and Sal Johnston}
 
-\conflictsofinterest{Declare conflicts of interest or state ``The authors declare no conflicts of interest.'' Authors must identify and declare any personal circumstances or interest that may be perceived as inappropriately influencing the representation or interpretation of reported research results. Any role of the funders in the design of the study; in the collection, analyses or interpretation of data; in the writing of the manuscript; or in the decision to publish the results must be declared in this section. If there is no role, please state ``The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript; or in the decision to publish the results''.} 
+\conflictsofinterest{The authors declare no conflicts of interest.} 
 
 \abbreviations{Abbreviations}{
 The following abbreviations are used in this manuscript:
 \\
-
 \noindent 
 \begin{tabular}{@{}ll}
-MDPI & Multidisciplinary Digital Publishing Institute\\
-DOAJ & Directory of open access journals
+CEM & Computational Electromagnetism \\
+CW & Continuous Wave \\
+MEEP & MIT Electromagnetic Equation Propagator \\
+NEEC & Naval Engineering Education Consortium \\
+NSWC Corona & Naval Surface Warfare Center, Corona Division \\
+RF & Radio-frequency
 \end{tabular}
 }
 
@@ -188,24 +250,9 @@ DOAJ & Directory of open access journals
 \appendixstart
 \appendix
 \section[\appendixname~\thesection]{}
-\subsection[\appendixname~\thesubsection]{}
-The appendix is an optional section that can contain details and data supplemental to the main text---for example, explanations of experimental details that would disrupt the flow of the main text but nonetheless remain crucial to understanding and reproducing the research shown; figures of replicates for experiments of which representative data are shown in the main text can be added here if brief, or as Supplementary Data. Mathematical proofs of results not central to the paper can be added as an appendix.
-
-\begin{table}[H] 
-\caption{This is a table caption.\label{tab5}}
-%\newcolumntype{C}{>{\centering\arraybackslash}X}
-\begin{tabularx}{\textwidth}{CCC}
-\toprule
-\textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}\\
-\midrule
-Entry 1		& Data			& Data\\
-Entry 2		& Data			& Data\\
-\bottomrule
-\end{tabularx}
-\end{table}
-
+The appendix is an optional section that can contain details and data supplemental to the main text
 \section[\appendixname~\thesection]{}
-All appendix sections must be cited in the main text. In the appendices, Figures, Tables, etc. should be labeled, starting with ``A''---e.g., Figure A1, Figure A2, etc.
+All appendix sections must be cited in the main text. 
 
 \begin{adjustwidth}{-\extralength}{0cm}
 
@@ -216,4 +263,3 @@ All appendix sections must be cited in the main text. In the appendices, Figures
 \PublishersNote{}
 \end{adjustwidth}
 \end{document}
-
