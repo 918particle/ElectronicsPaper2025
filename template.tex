@@ -37,7 +37,7 @@
 \address[1]{$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
 \corres{Correspondence: jhanson2@whittier.edu}
 
-\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive and proprietary computational electromagnetism (CEM) software.  Second, the design is fabricated using intricate metal machining.  Third, the fabricated design is characterized using benchtop RF measurement tools.  The traditional process can include machine learning algorithms for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) CEM package for design and simulation, and 3D printing with conductive filament for fabrication.  Using this process, we designed and fabricated an exponentially curved RF horn antenna.  To characterize our design, we show that the E-plane and H-plane radiation patterns, the VSWR, and the cross-polarization ratios match our CEM calculations.  These results indicate that our design is a linearly polarized, broadband RF horn antenna in the [5.5-6] GHz bandwidth.  The bandwidth of our instrumenation is limited to 6 GHz, and our CEM calculations predict good performance above 6 GHz.  We therefore conclude the bandwidth of our printed design extends above 6 GHz.  Future work will include expanding to lower bandwidth by 3D printing larger antennas, and constructing a broadband RF phased array.}
+\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive and proprietary computational electromagnetism (CEM) software.  Second, the design is fabricated using intricate metal machining.  Third, the fabricated design is characterized using benchtop RF measurement tools.  The traditional process can include machine learning algorithms for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) CEM package for design and simulation, and 3D printing with conductive filament for fabrication.  Using this process, we designed and fabricated an exponentially curved RF horn antenna.  To characterize our design, we show that the $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization ratios match our CEM calculations.  These results indicate that our design is a linearly polarized, broadband RF horn antenna in the [5.5-6] GHz bandwidth.  The bandwidth of our instrumenation is limited to 6 GHz, and our CEM calculations predict good performance above 6 GHz.  We therefore conclude the bandwidth of our printed design extends above 6 GHz.  Future work will include expanding to lower bandwidth by 3D printing larger antennas, and constructing a broadband RF phased array.}
 
 % Keywords
 \keyword{Computational Electromagnetism (CEM), Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
@@ -52,7 +52,7 @@ Development of new RF antenna designs requires exploration of conductor shapes t
 
 Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  Specifically, the author of \cite{hanson2021broadband-cab} produced RF phased array designs in two and three dimensions using MEEP code.  The designs included broadband RF horn elements in the [0.5-5] GHz bandwidth.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D-printed \cite{meepcon_hanson}.
 
-In this work, we present the first open-source broadband RF horn designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the CEM design and open-source CAD (Secs. \ref{sec:mat_meth_1}-\ref{sec:mat_meth_2}), and fabrication technique (Sec. \ref{sec:mat_meth_3}).  In Sec. \ref{sec:results}, we show that the E-plane and H-plane radiation patterns (Sec. \ref{sec:results_1}), the VSWR (Sec. \ref{sec:results_2}), and the cross-polarization ratios (Sec. \ref{sec:results_3}) match predictions.  In Sec. \ref{sec:disc}, we discuss the limitations of our analysis, applications of the results, and future research directions.  In Sec. \ref{sec:conc}, we summarize our key results.
+In this work, we present the first open-source broadband RF horn designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the CEM design, open-source CAD, and fabrication techniques.  In Sec. \ref{sec:results}, we show that the $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization ratios match predictions.  In Sec. \ref{sec:conc}, we discuss the limitations of our analysis, summarize key results, and discuss applications and future directions for this research.
 
 \section{Methods and Materials}
 \label{sec:mat_meth}
@@ -72,7 +72,7 @@ k &= (s_l-c_l)^{-1} \ln\left(\frac{w}{c_w}\right) \label{eq:2}
 \end{align}
 
 \noindent
-The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Figure \ref{fig:1}, while $-f(x)$ describes the lower surface.  Table \ref{tab:1} contains the values for $c_l$, $c_w$, $s_l$, and $w$ corresponding to our first 3D printed RF horn.  The horn is designed to be linearly polarized in the $y$-direction.
+The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Figure \ref{fig:1}, while $-f(x)$ describes the lower surface.  Table \ref{tab:1} contains the values for $c_l$, $c_w$, $s_l$, and $w$ corresponding to our first 3D printed RF horn.  The horn is designed to be linearly polarized in the $y$-direction.  When we are using a three-dimensional CEM model, we give the RF horn a height $z$.  The $z$-direction is out of the page in Fig. \ref{fig:1} (right).
 
 \begin{figure}
 \centering
@@ -91,6 +91,7 @@ Cavity Length & $c_l$ & 0.77 \\
 Cavity Width & $c_w$ & 1.00 \\
 Surface Length & $s_l$ & 16.52 \\
 Opening Width & $w$ & 9.59 \\
+Height & z & 2.0 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -174,49 +175,89 @@ VSWR = \frac{1+|\Gamma|}{1-|\Gamma|} \label{eq:3}
 \noindent
 Our strategy to calculate the VSWR is to send a pulse signal down a model for a coaxial cable, and measure $\Gamma$.  This strategy is based on MEEP \verb+FluxRegion+ objects, similar to the \verb+NearToFarRegion+ objects in the previous section\footnote{See \url{https://meep.readthedocs.io/en/master/Python_Tutorials/GDSII_Import}.}.
 
-Figure \ref{fig:2} (left) shows the upper left region of the RF horn CAD, depicting the radiation source within the structure representing the coaxial cable.  The coaxial cable model is built from outer conductors, dielectric materials, and an inner conductor with a radiating source polarized radially.  While the radiation pattern analysis uses a continuous-wave (CW) source, the source in our VSWR analysis is given a custom Gaussian signal with a broadband spectrum.  In the middle of the cable, a MEEP \verb+FluxRegion+ is instantiated.  Simular to a \verb+NearToFarRegion+, the \verb+FluxRegion+ records electromagnetic flux through a geometric region, simular to a Gaussian surface in classical electrodynamics.  Both MEEP classes can record flux at multiple frequencies.  In our CW radiation pattern analysis, we set the \verb+NearToFarRegion+ frequency to the source frequency.  In our VSWR analysis, we chose 1024 frequency bins centered on 5 GHz and passed them to the \verb+FluxRegion+.
+Figure \ref{fig:2} (left) shows the upper left region of the RF horn CAD, depicting the radiation source within the structure representing the coaxial cable.  The coaxial cable model is built from outer conductors, dielectric materials, and an inner conductor with a radiating source polarized radially.  While the radiation pattern analysis uses a continuous-wave (CW) source, the source in our VSWR analysis is given a custom Gaussian signal with a broadband spectrum.  In the middle of the cable, a MEEP \verb+FluxRegion+ is instantiated.  Simular to a \verb+NearToFarRegion+, the \verb+FluxRegion+ records electromagnetic flux through a geometric region, simular to a Gaussian surface in classical electrodynamics.  Both MEEP classes can record flux at multiple frequencies.  In our CW radiation pattern analysis, we set the \verb+NearToFarRegion+ frequency to the source frequency.  In our VSWR analysis, we chose 1024 frequency bins ranging from [0-10] GHz and passed them to the \verb+FluxRegion+.
 
 The reflection coefficient $\Gamma$ is measured in two stages.  First, the MEEP simulation is run for a time corresponding to the length of the coaxial cable, accounting for the speed of propagation given the dielectric material.  The input flux is recorded, and the simulation is reset.  The simulation is run a second time, but the input flux is multiplied by $-1$ and pre-loaded into the \verb+FluxRegion+.  The simulation is run for a factor of 2 longer, so that any reflections from the RF antenna have time to reach the \verb+FluxRegion+ a second time.  The \verb+FluxRegion+ records the output flux, having already cancelled the input flux from the pre-loaded opposite input flux.  Thus, using one \verb+FluxRegion+, the ratio of output to input flux, $\Gamma$, can be calculated.  The VSWR ratio (Equation \ref{eq:3}) is formed and converted to dB.
-
-\subsection{Open-Source CAD}
-\label{sec:mat_meth_2}
-
-things.
 
 \subsection{Fabrication Technique}
 \label{sec:mat_meth_3}
 
-things.
+This section is for Adam to contribute
 
 \section{Results}
 \label{sec:results}
 
-This section gives results
+Using the techniques described in Sec. \ref{sec:mat_meth_3}, we fabricated an RF horn with the parameters in Table \ref{tab:1}.  Figure \ref{fig:3} contains photos of the results.  As listed in Table \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Figure \ref{fig:3}, middle).  The dimensions of the opening are xx by yy cm.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the initial radiation is linearly polarized.  The radiation pattern measurements were made in a co-polarized S21 configuration, and VSWR measurements are made with respect to a 50 $\Omega$ RF coaxial cable connected to printed RF horn.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.32\textwidth]{printer.jpg}
+\includegraphics[width=0.5\textwidth]{antenna_1.jpg}
+\includegraphics[width=0.16\textwidth]{antenna_2.jpg}
+\caption{\label{fig:3} (Left) The Prusa XL 3D printer beginning a print with the Electrifi filament. (Middle) The finished RF horn with SMA connector. (Right) The finished RF horn viewed with opening visible.}
+\end{figure}
 
 \subsection{Radiation Patterns}
 \label{sec:results_1}
 
-The text continues here.
+To measure the radiation patterns of the RF horn, we bolted the RF horn on a camera mount, and configured it as the receiver into a network analyzer with [0-6] GHz bandwidth.  For a transmitter, we used a rear-fed log-periodic dipole array (LPDA).  The netork analyzer was calibrated with a short element, open element, and 50 $\Omega$ terminator.  After calibration, the S21 measurement mode was activated, and the cables were connected together to form a closed loop without the antennas.  The measured S21 showed a 0 dB loss across the 6 GHz bandwidth.  The receiver and transmitter where then inserted, and the S21 measured versus frequency.  The transmitter power was set to maximum, 20 dBm, meaning no amplifier was necessary.  The distance between transmitter and receiver varied between 1-2 meters.  Received power was measured above the noise floor in the bandwidth [5.5-6] GHz
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{antennas_s12.jpg}
+\caption{\label{fig:4} The co-polarized configuration to measure the radiation pattern of the printed RF horn.}
+\end{figure}
+
+We first verified qualitatively that the S21 power varied appropriately with $\mathbf{E}$-plane angle, $\mathbf{H}$-plane angle, and co-polarization angle.  Next, the receiver and transmitter were mounted in a vertically polarized configuration so that $\mathbf{E}$-plane angle could be measured with a smartphone level tool (Figure \ref{fig:4}).  The S21 power was measured versus $\mathbf{E}$-plane angle.  Next, the antennas were mounted in a horizontally polarized configuration, so that $\mathbf{H}$-plane angle could be measured with the same smartphone tool.  The S21 power was normalized to the maximum received power, when $\mathbf{E}$-plane and $\mathbf{H}$-plane angle were both 0 degrees.  The results are shown in Figure \ref{fig:5}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.49\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.967GHz_Eplane.png}
+\includegraphics[width=0.49\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.85GHz_Hplane.png}
+\caption{\label{fig:5} $\mathbf{E}$-plane radiation pattern (circles, 5.967 GHz) and $\mathbf{H}$-plane radiation pattern (crosses, 5.85 GHz).  (Left) Line: calculated $\mathbf{E}$-plane pattern from our 3D MEEP model of the RF horn.  (Right) Line: calculated $\mathbf{H}$-plane pattern from our 3D MEEP model of the RF horn.}
+\end{figure}
+
+The polar plot ranges from -26 dB to 1 dB in normalized power.  In the spherical coordinate system for a linearly polarized RF antenna radiating in the $x$-direction, the $\mathbf{E}$-plane angle is the azimuthal angle as measured from the $x$-axis.  Thus, in Figure \ref{fig:5} (left) the data and CEM model peak at 0 dB when the angle is 0 degrees.  There is good agreement between the CEM model and the measured S21 power.  In the same coordinate system, the zenith angle is the $\mathbf{H}$-plane angle.  Thus, in Figure \ref{fig:5} (right) the data and CEM model peak at 0 dB when the angle is 90 degrees (when the zenith gives a position vector in the $xy$-plane).  As with the $\mathbf{E}$-plane, there is good agreement between the CEM model and S21 power.
 
 \subsection{The VSWR}
 \label{sec:results_2}
 
-The text continues here.
+To measure the VSWR of the RF horn, we bolted the RF horn to the camera mount, and configured it as the transmitter on the network analyzer.  Once again, the network analyzer was calibrated on [0-6] GHz.  After calibration, the S11 measurement mode was activated, and we verified that we measured 50 $\Omega$ resistance in the bandwidth of interest.  Finally, we extracted the S11 reflection coefficient in dB from the network analyzer.  We took two additional post-processing steps.  First, we converted S11 in dB to linear S11, and then to VSWR using Equation \ref{eq:3}.  Second, we smoothed the data with an 11-point running average.  We chose the 11-point filter to remain symmetric about the sample of interest (5 points to either side).  Though the S11 fluctuated, the 11-point running average revealed a trend that matches results from CEM modeling.  The results are shown in Figure \ref{fig:6}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{vswr_12percentSmoothing_ext.pdf}
+\caption{\label{fig:6} Circles: measured VSWR data, smoothed with a running average filter.  Line: VSWR from CEM modeling.  The black circles have been shifted down to account for the impedance mismatch between 3D printed RF horn and coaxial cable. See text for details.}
+\end{figure}
+
+After the two-stage post-processing, the VSWR from CEM modeling matched the measured VSWR once we shifted the measured VSWR down by a factor of 4.  The reason for this is the impedance mismatch between the line impedance from the coaxial cable, and the load impedance from the RF horn.  For example, if $Z_{\rm ant} = 200 \Omega$, and $Z_{\rm L} = 50 \Omega$, then the VSWR is a factor of 4 higher than it would be if the antenna were matched to the line ($Z_{\rm ant} = 50 \Omega$).  Though the measured $Z_{\rm ant}$ fluctuated between 50-200 $\Omega$, after converting to VSWR and scaling the data, we find a match to CEM.  Two additional observations are important to note.  First, our VSWR calculation in MEEP was performed in 2D.  This makes the calculation simpler, but it is not necessary.  Second, the bandwidth of the network analyzer was limited to 6 GHz.  Though our measured data stops at 6 GHz in Figure \ref{fig:6}, the simulated VSWR in Figure \ref{fig:6} predicts good performance above 6 GHz.
 
 \subsection{Cross-Polarization Ratios}
 \label{sec:results_3}
 
-The text continues here.
+The final measurement we performed was the cross-polarization ratio.  The 3D printed RF horn and LPDA were arranged in the same S21 configuration that was used to measure the radiation patterns.  The RF horn was the receiver, and bolted to the mount such that an inclinometer would measure cross-polarization angle.  The prediction for the dependence of received power versus cross-polarization angle is known from optics and antenna theory.  Let $P_{\rm r}$ be the received power, $P_{\rm t}$ be the transmitted power, and $\theta$ be the cross-polarization angle.  These are related by
 
-\section{Discussion}
-\label{sec:disc}
+\begin{equation}
+P_{\rm r} = P_{\rm t} \cos^2\theta \label{eq:4}
+\end{equation}
 
-Authors should discuss the results and how they can be interpreted from the perspective of previous studies and of the working hypotheses.
+\noindent
+When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results are shown in Figure \ref{fig:7}, and show good agreement between data and CEM modeling.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{crosspol_5.80GHz.pdf}
+\caption{\label{fig:7} Circles: measured cross-polarization ratio in dB relative to maximum power.  Line:  Prediction from Equation \ref{eq:4}.}
+\end{figure}
 
 \section{Conclusions}
 \label{sec:conc}
 
-This section is not mandatory, but can be added to the manuscript if the discussion is unusually long or complex.
+Here we summarize key results, discuss the limitations of our analysis, and describe applications and future directions for this research.
+
+\subsection{Summary of Key Findings}
+
+We have shown that the properties of our 3D printed RF horn align with open-source CEM modeling performed using MEEP.  The $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns match 3D CEM models created in kLayout and imported to MEEP (Figure \ref{fig:5}).  The $\mathbf{H}$-plane results begin to deviate by 1 dB from our CEM model at large angles. ... xxx remember to measure the opening of the RF horn.
 
 \vspace{6pt} 
 
@@ -240,19 +281,20 @@ CW & Continuous Wave \\
 MEEP & MIT Electromagnetic Equation Propagator \\
 NEEC & Naval Engineering Education Consortium \\
 NSWC Corona & Naval Surface Warfare Center, Corona Division \\
-RF & Radio-frequency
+RF & Radio-frequency \\
+LPDA & Log-periodic Dipole Array
 \end{tabular}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Optional
-\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
-\appendixstart
-\appendix
-\section[\appendixname~\thesection]{}
-The appendix is an optional section that can contain details and data supplemental to the main text
-\section[\appendixname~\thesection]{}
-All appendix sections must be cited in the main text. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Optional
+%\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
+%\appendixstart
+%\appendix
+%\section[\appendixname~\thesection]{}
+%The appendix is an optional section that can contain details and data supplemental to the main text
+%\section[\appendixname~\thesection]{}
+%All appendix sections must be cited in the main text. 
 
 \begin{adjustwidth}{-\extralength}{0cm}
 
