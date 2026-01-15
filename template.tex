@@ -255,8 +255,8 @@ The CAD design for the model was made using Autodesk Inventor utilizing Autodesk
 
 
 This part goes in a table
-AI generated Equation	y = (a / 2) * exp( (log(2*d / a) / c) * x )
-Proper Equation	(a_u/2)*E^((ln(2*d_u/a_u)/(charles_u-a_u))*(t-a_u))
+%AI generated Equation	y = (a / 2) * exp( (log(2*d / a) / c) * x )
+%Proper Equation	(a_u/2)*E^((ln(2*d_u/a_u)/(charles_u-a_u))*(t-a_u))
 
 
 Other challenges that are unique to this process involve keeping constraints consistent.  It was observed that projections would often break, so adjusting base parameters would break sketches, which would have to be repaired.  This was further complicated by the equation curves not consistently responding to constraints.  Sometimes, the program could not solve a constraint for no apparent reason.  The equation curve may need to be remade in these cases.  Other times, connecting the offset of the equation curve could have difficulties.  This can be solved by building the sketch without using the offset command and potentially either weakening the structure or using more filament than necessary.  Closing the sketch could sometimes show as improperly defined but would refuse to allow itself to be defined.  This problem was not predictable and there was difficulty in attempting to replicate or correct it consistently.
