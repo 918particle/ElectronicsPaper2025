@@ -124,7 +124,7 @@ for j in range(0,n_antenna):
 \normalsize
 
 \noindent
-With appropriate constants defined, this code creates a one-dimensional phased array of 2D RF horns with MEEP conductors.  There are two advantages to this \textit{parametric design}: is that it is fast and simple to code, and no other tools or programs outside of MEEP are required.  Structures can be quickly modified by exploring the parameter space defined by the constants in Table. \ref{tab:1}.  The disadvantage is that complex structures must be assembled from simple ones with little intuition or visualization.  Using open CAD programs like kLayout, however, allow the RF engineer to design antenna structures visually before importing them into MEEP.  By introducing open-source CAD, the same structures given to the CEM modeling can be given to the 3D printing system.
+With appropriate constants defined, this code creates a one-dimensional phased array of 2D RF horns with MEEP conductors.  There are two advantages to this \textit{parametric design}: it is fast and simple to code, and no other tools or programs outside of MEEP are required.  Structures can be quickly modified by exploring the parameter space defined by the constants in Table. \ref{tab:1}.  The disadvantage is that complex structures must be assembled from simple ones with little intuition or visualization.  Using open CAD programs like kLayout, however, allow the RF engineer to design antenna structures visually before importing them into MEEP.  By introducing open-source CAD, the same structures given to the CEM modeling can be given to the 3D printing system.
 
 Ideally, the advantages of parametric design and open-source CAD should be preserved.  First, we print the vertices of the antenna structures from our Python3 code.  Second, we create polygons in kLayout, with initial lists of vertices.  Finally, we copy the vertices from Python3 code into the kLayout polygons.  This procedure results in 2D structures like those shown in Figure \ref{fig:1} (right).  Figure \ref{fig:1} (right) is a design of the RF horn in the $xy$-plane, and we give the design height and thickness in the $z$-direction after importing it to MEEP.  MEEP accepts the GDSII file format produced by kLayout, and GDSII files can be converted to STL files suitable for PrusaSlicer and other 3D printing software.
 
@@ -182,27 +182,26 @@ The reflection coefficient $\Gamma$ is measured in two stages.  First, the MEEP 
 \subsection{Fabrication Technique}
 \label{sec:mat_meth_3}
 
-The model for 3D printing was created using Autodesk Inventor with free Education Plan.  The equations that decribe the RF horn, Eqs. \ref{eq:1} and \ref{eq:2}, can be implemented with the parameters in Tab. \ref{tab:1} using the Equation Curve feature.  Inventor uses parametric modeling, meaning parameters from Tab. \ref{tab:1} can be edited to produce new designs.  Merging the mathematical form of Eqs. \ref{eq:1} and \ref{eq:2} required parameterization into a format useable by the Equation Curve feature.  Other challenges that are unique to this process involve maintaining geometric design constraints.  Since adjusting parameters or design offsets may result in a design that violates a design constraint, the process required fine tuning.
+The 3D printed RF horn was designed using Autodesk Inventor with free Education Plan.  The equations that decribe the RF horn, Eqs. \ref{eq:1} and \ref{eq:2}, can be implemented with the parameters in Tab. \ref{tab:1} using the Equation Curve feature.  Inventor uses parametric modeling, meaning parameters from Tab. \ref{tab:1} can be edited to produce new designs.  Merging the mathematical form of Eqs. \ref{eq:1} and \ref{eq:2} required parameterization into a format useable by the Equation Curve feature.  Other challenges that are unique to this process involve maintaining geometric design constraints.  Since adjusting parameters or design offsets may result in a design that violates a design constraint, the process required fine tuning.
 
 The 3D print workflow requires careful consideration.  The Multi3D Electrifi filament was found to be more difficult to print than PLA or PETG.  The tall and narrow nature of the model produced issues with build plate adhesion.  To address this, two steps were added to the workflow: glue from a glue stick or spray can was applied to a layer of masking tape on the print bed, and removable buttresses were added to the print structure.  The filament was printed between 135-145 degrees C, and no bed heating was required.  Our printer is a dual print-head Prusa XL, with a modified tungsten tipped nozzle to reduce abrasion.  The slicing program used to translate from CAD to printer firmware was PrusaSlicer, which has a method for including custom firmware commands.  Crucially, a custom command was required to allow the printer to print below its minimum safety temperature.
 
 \section{Results}
 \label{sec:results}
 
-Using the techniques described in Sec. \ref{sec:mat_meth_3}, we fabricated an RF horn with the parameters in Table \ref{tab:1}.  Figure \ref{fig:3} contains photos of the results.  As listed in Table \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Figure \ref{fig:3}, middle).  The dimensions of the opening are xx by yy cm.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the initial radiation is linearly polarized.  The radiation pattern measurements were made in a co-polarized S21 configuration, and VSWR measurements are made with respect to a 50 $\Omega$ RF coaxial cable connected to printed RF horn.
+Using the techniques described in Sec. \ref{sec:mat_meth_3}, we fabricated an RF horn with the parameters in Table \ref{tab:1}.  Figure \ref{fig:3} contains photos of the results.  As listed in Table \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Figure \ref{fig:3}).  The dimensions of the opening are xx by yy cm.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the initial radiation is linearly polarized.  The radiation pattern measurements were made in a co-polarized S21 configuration, and VSWR measurements are made with respect to a 50 $\Omega$ RF coaxial cable connected to printed RF horn.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.32\textwidth]{printer.jpg}
-\includegraphics[width=0.5\textwidth]{antenna_1.jpg}
-\includegraphics[width=0.16\textwidth]{antenna_2.jpg}
+\includegraphics[width=0.25\textwidth,angle=90]{antenna_1.jpg}
+\includegraphics[width=0.45\textwidth]{antenna_2.jpg}
 \caption{\label{fig:3} (Left) The Prusa XL 3D printer beginning a print with the Electrifi filament. (Middle) The finished RF horn with SMA connector. (Right) The finished RF horn viewed with opening visible.}
 \end{figure}
 
 \subsection{Radiation Patterns}
 \label{sec:results_1}
 
-To measure the radiation patterns of the RF horn, we bolted the RF horn on a camera mount, and configured it as the receiver into a network analyzer with [0-6] GHz bandwidth.  For a transmitter, we used a rear-fed log-periodic dipole array (LPDA).  The netork analyzer was calibrated with a short element, open element, and 50 $\Omega$ terminator.  After calibration, the S21 measurement mode was activated, and the cables were connected together to form a closed loop without the antennas.  The measured S21 showed a 0 dB loss across the 6 GHz bandwidth.  The receiver and transmitter where then inserted, and the S21 measured versus frequency.  The transmitter power was set to maximum, 20 dBm, meaning no amplifier was necessary.  The distance between transmitter and receiver varied between 1-2 meters.  Received power was measured above the noise floor in the bandwidth [5.5-6] GHz
+To measure the radiation patterns of the RF horn, we bolted the RF horn on a camera mount, and configured it as the receiver into a network analyzer with [0-6] GHz bandwidth (Fig. \ref{fig:4}).  For a transmitter, we used a rear-fed log-periodic dipole array (LPDA).  The netork analyzer was calibrated with a short element, open element, and 50 $\Omega$ terminator.  After calibration, the S21 measurement mode was activated, and the cables were connected together to form a closed loop without the antennas.  The measured S21 showed a 0 dB loss across the 6 GHz bandwidth.  The receiver and transmitter where then inserted, and the S21 measured versus frequency.  The transmitter power was set to maximum, 20 dBm, meaning no amplifier was necessary.  The distance between transmitter and receiver varied between 1-2 meters.  Received power was measured above the noise floor in the bandwidth [5.5-6] GHz
 
 \begin{figure}[h]
 \centering
@@ -212,11 +211,11 @@ To measure the radiation patterns of the RF horn, we bolted the RF horn on a cam
 
 We first verified qualitatively that the S21 power varied appropriately with $\mathbf{E}$-plane angle, $\mathbf{H}$-plane angle, and co-polarization angle.  Next, the receiver and transmitter were mounted in a vertically polarized configuration so that $\mathbf{E}$-plane angle could be measured with a smartphone level tool (Figure \ref{fig:4}).  The S21 power was measured versus $\mathbf{E}$-plane angle.  Next, the antennas were mounted in a horizontally polarized configuration, so that $\mathbf{H}$-plane angle could be measured with the same smartphone tool.  The S21 power was normalized to the maximum received power, when $\mathbf{E}$-plane and $\mathbf{H}$-plane angle were both 0 degrees.  The results are shown in Figure \ref{fig:5}.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
-\includegraphics[width=0.49\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.967GHz_Eplane.png}
-\includegraphics[width=0.49\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.85GHz_Hplane.png}
-\caption{\label{fig:5} $\mathbf{E}$-plane radiation pattern (circles, 5.967 GHz) and $\mathbf{H}$-plane radiation pattern (crosses, 5.85 GHz).  (Left) Line: calculated $\mathbf{E}$-plane pattern from our 3D MEEP model of the RF horn.  (Right) Line: calculated $\mathbf{H}$-plane pattern from our 3D MEEP model of the RF horn.}
+\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.967GHz_Eplane.png}
+\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.85GHz_Hplane.png}
+\caption{\label{fig:5} (Left) The black circles represent the $\mathbf{E}$-plane radiation pattern data at 5.967 GHz, and the black line represnts our 3D MEEP simulation of $\mathbf{E}$-plane radiation pattern.  (Right) The black crosses represent the $\mathbf{H}$-plane radiation pattern data at 5.85 GHz, and the black line represents our 3D MEEP simulation of $\mathbf{H}$-plane radiation pattern.}
 \end{figure}
 
 The polar plot ranges from -26 dB to 1 dB in normalized power.  In the spherical coordinate system for a linearly polarized RF antenna radiating in the $x$-direction, the $\mathbf{E}$-plane angle is the azimuthal angle as measured from the $x$-axis.  Thus, in Figure \ref{fig:5} (left) the data and CEM model peak at 0 dB when the angle is 0 degrees.  There is good agreement between the CEM model and the measured S21 power.  In the same coordinate system, the zenith angle is the $\mathbf{H}$-plane angle.  Thus, in Figure \ref{fig:5} (right) the data and CEM model peak at 0 dB when the angle is 90 degrees (when the zenith gives a position vector in the $xy$-plane).  As with the $\mathbf{E}$-plane, there is good agreement between the CEM model and S21 power.
@@ -251,6 +250,19 @@ When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normaliz
 \includegraphics[width=0.75\textwidth]{crosspol_5.80GHz.pdf}
 \caption{\label{fig:7} Circles: measured cross-polarization ratio in dB relative to maximum power.  Line:  Prediction from Equation \ref{eq:4}.}
 \end{figure}
+
+\subsection{Future Work: Expansion of Bandwidth via Scaled Design}
+\label{sec:results_4}
+
+One limitation of our current 3D printed RF horn is measuring the lower edge of the bandwidth.  While the data in Fig. \ref{fig:6} show equally efficient performance between [4-6] GHz, in practice, measuring S21 below 5.5 GHz is challenging due to decreased SNR at lower frequencies.  We have scaled our RF horn design by a factor of 2, and are currently completing our first prints of this larger device.  The predicted VSWR is shown in Fig. \ref{fig:8}, along with the VSWR corresponding to the open RF cable model and no RF horn.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{scaled_vswr.pdf}
+\caption{\label{fig:8} Black circles: the VSWR data from Fig. \ref{fig:6}, with frequencies scaled down by a factor of 2.  Solid black line: VSWR from MEEP simulation using a CAD model scaled by a factor of 2.  Dashed line: the VSWR from MEEP simulation with RF cable and no RF horn.}
+\end{figure}
+
+In Fig. \ref{fig:8}, the VSWR data from Fig. \ref{fig:6} is again plotted, but the frequencies have been scaled down by a factor of 2, corresponding to the larger 3D print design.  The MEEP simulation uses an identical CAD file that has been scaled accordingly in kLayout, using the Scale feature.  The data again matches the simulation.  The dashed line represents the VSWR result if the RF horn structure is removed, leaving only the original RF cable.  Only the highest frequencies radiate efficiently from the cable model.  The MEEP simulation shows that a larger model should have better performance at low frequencies, and that a bandwidth of [1-6] GHz is expected.
 
 \section{Conclusions}
 \label{sec:conc}
