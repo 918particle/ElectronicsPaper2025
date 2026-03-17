@@ -1,0 +1,7 @@
+Reviewer report #1
+
+-Removed italic text
+-Removed phased array from the title
+-Changed line containing multi-GHz bandwidth to: "The goal of this work was to use open CEM tools to design, model, and fabricate a linearly polarized, RF horn antenna in the [1-10] GHz range via additive manufacturing."
+-I could not determine what the reviewer meant by "other methods."
+-I will take more data for the E and H-planes ...

@@ -10,25 +10,17 @@
 \articlenumber{0}
 \pubyear{2025}
 \copyrightyear{2025}
-%\externaleditor{Firstname Lastname} % More than 1 editor, please add `` and '' before the last editor name
 \datereceived{ } 
 \daterevised{ } % Comment out if no revised date
 \dateaccepted{ } 
 \datepublished{ } 
-%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
-%\dateretracted{} % For retracted papers: "Retracted: XXX" date in the original paper.
 \hreflink{https://doi.org/} % If needed use \linebreak
-%\doinum{}
-%\pdfoutput=1 % Uncommented for upload to arXiv.org
-%\CorrStatement{yes}  % For updates
-%\longauthorlist{yes} % For many authors that exceed the left citation part
-%\IsAssociation{yes} % For association journals
 
 %=================================================================
 \usepackage{graphicx}
 %=================================================================
 
-\Title{Broadband RF Phased Array Design with MEEP: A 3D-Printed Open-Source RF Horn in the multi-GHz Bandwidth}
+\Title{Broadband RF Design with MEEP: A 3D-Printed Open-Source RF Horn in the multi-GHz Bandwidth}
 \TitleCitation{Title}
 \newcommand{\orcidauthorA}{0000-0003-4055-4553}
 \Author{Jordan C. Hanson $^{1}$\orcidA{}*, Adam Wildanger$^{1}$}
@@ -37,16 +29,15 @@
 \address[1]{$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
 \corres{Correspondence: jhanson2@whittier.edu}
 
-\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive, proprietary software.  Second, the design is built using precision metal machining or printed circuit board (PCB) fabrication.  Third, the result is characterized using RF measurement tools.  The process can include machine learning for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) package for design and simulation, and open-source 3D printing with conductive polymer for fabrication.  Using this process, we designed and fabricated a broadband RF horn antenna.  The $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization match MEEP calculations.  These results indicate that our design is a linearly polarized, broadband RF horn antenna in the [5.5-6] GHz bandwidth.  Though our data are limited to frequencies $\leq 6$ GHz, our MEEP calculations predict good performance above 6 GHz.  Future work will include expanding the bandwidth with larger RF structures, and constructing a broadband RF phased array.}
+\abstract{Radio-frequency (RF) antenna design traditionally proceeds in three phases.  First, the design performance is modeled with expensive, proprietary software.  Second, the design is built using precision metal machining or printed circuit board (PCB) fabrication.  Third, the result is characterized using RF measurement tools.  The process can include machine learning for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) package for design and simulation, and open-source 3D printing with conductive polymer for fabrication.  Using this process, we designed and fabricated a broadband RF horn antenna.  The radiation patterns and the VSWR match our MEEP calculations, while the cross-polarization ratio matches theoretical expectations.  These results indicate that our design is a linearly polarized, broadband RF horn antenna.  Our results represent one of the first designs fabricated exclusively via conductive additive manufacturing, circumventing the need for electroplating processes.  Future work will include the fabrication of a broadband RF phased array.}
 
-% Keywords
 \keyword{Computational Electromagnetism (CEM), Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
 
 \begin{document}
 
 \section{Introduction}
 
-Broadband RF antennas are ubiquitous tools within scientific instrumentation and communications.  Traditionally, these are designed with expensive, proprietary software packages \cite{hfss,xfdtd}.  Designs are fabricated by cutting metal with precision machine tools (\textit{subtractive manufacturing}).  Compared to \textit{additive manufacturing} techniques, subtractive manufacturing can be costly for rapid prototyping \cite{segoviaguerrero2025additive-29b,add_vs_sub}.  Open-source additive manufacturing boosts cost efficiency in both the design and fabrication, provided the 3D printing filament has sufficient conductivity.
+Broadband RF antennas are ubiquitous tools within scientific instrumentation and communications.  Traditionally, these are designed with expensive, proprietary software packages \cite{hfss,xfdtd}.  Designs are fabricated by cutting metal with precision machine tools (subtractive manufacturing).  Compared to additive manufacturing techniques, subtractive manufacturing can be costly for rapid prototyping \cite{segoviaguerrero2025additive-29b,add_vs_sub}.  Open-source additive manufacturing boosts cost efficiency in both the design and fabrication, provided the 3D printing filament has sufficient conductivity.
 
 Development of new RF antenna designs requires exploration of conductor shapes that set the boundary conditions for radiated signals.  Developing new shapes that meet design requirements has been aided by machine learning (ML) strategies \cite{gajbhiye2025comprehensive-fdb,goudos2016evolutionary-cc7,linden1999evolving-8c2}.  While mixing new ML algorithms into open CEM code is straightforward, incorporating them into proprietary software is often challenging.  Ideally, RF engineers would keep the  functionality of proprietary software, while retaining the flexibility to incorporate new ML techniques.  Creating a design process based on open CEM tools achieves this goal.
 
@@ -54,19 +45,19 @@ Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software 
 
 In recent years, RF antenna systems have begun to be fabricated with 3D printing.  The authors of \cite{alkaraki2020mmwave-bcd} presented a hybrid strategy that combined traditional PCB fabrication, non-conductive 3D printing, and metallization of 3D printed structures.  The assembled structure was a low-cost, electronically steerable MIMO array for mm-Wave 5G applications.  The authors of \cite{yoo2022hollow-9a5} produced a waveguide-fed holographic beam-forming antenna using a dual print-head 3D printing system that combined non-conductive PLA supports with conductive filament.  The result was a steerable beam at frequencies near 10 GHz.  The authors of \cite{yurduseven2017computational-82f} produced a Mills-Cross, frequency-diverse, metasurface antenna capable of electronic steering in the K-band, using a mixture of non-conductive PLA and conductive filament.  Finally, the authors of \cite{yurduseven20193d-68d} printed a holgraphic metasurface antenna using the same technique found in \cite{yurduseven2017computational-82f} for Fresnel-zone focusing on and off-axis in the X-band.
 
-In this work, we present the first open-source, broadband, 3D printed RF horn, designed with MEEP and fabricated entirely from conductive 3D-printer filament.  In Sec. \ref{sec:mat_meth}, we explain the open-source design, CAD, and fabrication techniques.  In Sec. \ref{sec:results}, we show that the $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization ratios match predictions.  In Sec. \ref{sec:conc}, we discuss the limitations of our analysis, summarize key results, and discuss applications and future directions for this research.
+In this work, we present the first open-source, broadband, 3D printed RF horn, designed with MEEP and fabricated entirely from conductive 3D-printer filament.  Note that the authors are MEEP users, but not MEEP developers.  Where appropriate, we have cited the creators of MEEP \cite{10.1016/j.cpc.2009.11.008}.  In Sec. \ref{sec:mat_meth}, we explain the open-source design, CAD, and fabrication techniques.  In Sec. \ref{sec:results}, we show that the $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization ratios match predictions.  In Sec. \ref{sec:conc}, we discuss the limitations of our analysis, summarize key results, and discuss applications and future directions for this research.
 
 \section{Methods and Materials}
 \label{sec:mat_meth}
 
-The goal of this work was to use open CEM tools to design, model, and fabricate a linearly polarized, broadband RF horn antenna in the multi-GHz bandwidth.  Over the past decade, MEEP has most often been used to design photonics systems \cite{hammond2022highperformance-057,majumder2017ultracompact-0fc}.  Recently, MEEP has been used to model electromagnetic propagation with wavelengths at the cm-scale \cite{hanson2021broadband-cab,meepcon_hanson}.  Further, antenna designs created with open CAD tools like kLayout can be imported into MEEP.  Using parametric CAD design, we can specify antenna shapes using analytic functions that are then translated into kLayout and MEEP.  Designs in kLayout can also be translated into 3D printer files, ensuring the device and model match.
+The goal of this work was to use open CEM tools to design, model, and fabricate a linearly polarized, RF horn antenna in the [1-10] GHz range via additive manufacturing.  Over the past decade, MEEP has most often been used to design photonics systems \cite{hammond2022highperformance-057,majumder2017ultracompact-0fc}.  Recently, MEEP has been used to model electromagnetic propagation with wavelengths at the cm-scale \cite{hanson2021broadband-cab,meepcon_hanson}.  Further, antenna designs created with open CAD tools like kLayout can be imported into MEEP.  Using parametric CAD design, we can specify antenna shapes using analytic functions that are then translated into kLayout and MEEP.  Designs in kLayout can also be translated into 3D printer files, ensuring the device and model match.
 
 Our open fabrication technique hinges on the existence of commerically available conductive 3D printer filament.  Multi3D\footnote{See \url{https://www.multi3dllc.com}} has shown that a copper-doped thermoplastic serves as a 3D printer filament with resistivities of $\approx 10^{-1}$ $\Omega$ cm, depending on the printing pattern.  Using a tungsten-tipped 3D printing head and Electrifi filament from Multi3D, we can complete antenna prints with volumes of $\approx 350$ cm$^3$ in several hours.  The printed structures are fitted with RF connectors and tested as receivers on custom mounts, while using a network analyzer connected to a log-periodic dipole array (LPDA) antenna as the transmitter.  Figure \ref{fig:1} (left) contains a diagram of the design and fabrication process.
 
 \subsection{CEM Design and Open-Source CAD}
 \label{sec:mat_meth_1}
 
-The kLayout design of the RF horn is shown in Fig. \ref{fig:1} (right).  The open-source CEM design begins with choosing parametric design parameters for the exponential RF horn.  The horn \textit{cavity} is the rectangular volume where the coaxial cable attaches.  The horn \textit{surfaces} are the curved structures that connect the cavity to open space.  The \textit{opening} is the area where the \textit{surfaces} stop and radiation exits the horn.  Let the origin of an $xy$ coordinate system refer to the center of the left edge of the cavity in Fig. \ref{fig:1} (right).  Let $c_l$ refer to the cavity length in the $x$-direction, $c_w$ refer to the cavity width in the $y$-direction, $s_l$ refer to the surface length in the $x$-direction, and $w$ refer to the opening width in the $y$-direction.  Using these variables, Equations \ref{eq:1} and \ref{eq:2} specify the shape of the RF horn surfaces in the $xy$-plane:
+The kLayout design of the RF horn is shown in Fig. \ref{fig:1} (right).  The open-source CEM design begins with choosing parametric design parameters for the exponential RF horn.  The horn cavity is the rectangular volume where the coaxial cable attaches.  The horn surfaces are the curved structures that connect the cavity to open space.  The opening is the area where the surfaces stop and radiation exits the horn.  Let the origin of an $xy$ coordinate system refer to the center of the left edge of the cavity in Fig. \ref{fig:1} (right).  Let $c_l$ refer to the cavity length in the $x$-direction, $c_w$ refer to the cavity width in the $y$-direction, $s_l$ refer to the surface length in the $x$-direction, and $w$ refer to the opening width in the $y$-direction.  Using these variables, Equations \ref{eq:1} and \ref{eq:2} specify the shape of the RF horn surfaces in the $xy$-plane:
 
 \begin{align}
 f(x) &= \frac{c_w}{2}\exp(k(x-c_l)) \label{eq:1} \\
@@ -126,7 +117,7 @@ for j in range(0,n_antenna):
 \normalsize
 
 \noindent
-With appropriate constants defined, this code creates a one-dimensional phased array of 2D RF horns with MEEP conductors.  There are two advantages to this \textit{parametric design}: it is fast and simple to code, and no other tools or programs outside of MEEP are required.  Structures can be quickly modified by exploring the parameter space defined by the constants in Tab. \ref{tab:1}.  The disadvantage is that complex structures must be assembled from simple ones with little visualization and a large high-performance computing (HPC) memory usage.  Using open CAD programs like kLayout, however, antenna structures are designed visually and imported into MEEP.
+With appropriate constants defined, this code creates a one-dimensional phased array of 2D RF horns with MEEP conductors.  There are two advantages to this parametric design: it is fast and simple to code, and no other tools or programs outside of MEEP are required.  Structures can be quickly modified by exploring the parameter space defined by the constants in Tab. \ref{tab:1}.  The disadvantage is that complex structures must be assembled from simple ones with little visualization and a large high-performance computing (HPC) memory usage.  Using open CAD programs like kLayout, however, antenna structures are designed visually and imported into MEEP.
 
 This procedure relies adept coordination between MEEP and kLayout.  First, we create a list of the vertices of the antenna structures using Python3 functions evaluating Eqs. \ref{eq:1}-\ref{eq:2} and other simple pouints for the cavity.  Second, we create placeholder polygons in kLayout.  Third, we copy the vertices into the kLayout polygons.  This procedure results in 2D structures like those shown in Fig. \ref{fig:1} (right).  Figure \ref{fig:1} (right) is a design of the RF horn in the $xy$-plane.  We give the design a height in the $z$-direction after importing to MEEP.  MEEP accepts GDSII files produced by kLayout, which can also be converted to STL files suitable for 3D printing software.  In practice, free tools like the educational version of AutoDesk Inventor are useful for fine-tuning designs.
 
@@ -168,7 +159,7 @@ To obtain the radiation pattern, the \verb+sim.run()+ command must be executed s
 \caption{\label{fig:2} (Left) The upper left region of \ref{fig:1}.  The purple region is the radiating source used for VSWR analysis, the red regions are dielectric material, and the light blue regions are conductors.  The combined structure represents a coaxial cable.  (Right)  The lower left region of Fig. \ref{fig:1}.  The coaxial cable reaches the horn cavity, shown in light blue.  The dark blue regions are the beginning of the horn surfaces.  The pink structure in the center is the radiation source used for radiation pattern analysis.}
 \end{figure}
 
-The voltage standing wave radio (VSWR) is a standard RF figure of merit.  The VSWR may be expressed in terms of the complex reflection coefficient, $\Gamma$, between coaxial line and RF antenna input port:
+The voltage standing wave radio (VSWR) is a standard RF figure of merit \cite{pozar}.  The VSWR may be expressed in terms of the complex reflection coefficient, $\Gamma$, between coaxial line and RF antenna input port:
 
 \begin{equation}
 VSWR = \frac{1+|\Gamma|}{1-|\Gamma|} \label{eq:3}
@@ -193,7 +184,7 @@ The 3D print workflow requires careful consideration.  The Multi3D Electrifi fil
 
 We performed our MEEP calculations on a System76 Thelio Major, with an AMD Ryzen Threadripper 3990X 64-core motherboard.  This motherboard enables hyper-threading, so the effective number of cores is 128.  With 256 GB of memory, the memory per core is 2 GB.  The FDTD approach for CEM modeling is memory intensive, so it was important to equip the system with sufficient memory.  In practice, memory consumption peaks at about 32 GB when running MEEP in parallel across 64 cores when computing a 3D radiation pattern using near-to-far field projection.  The enhanced memory per core allows multiple users to create runs exploring different antenna parameters.
 
-In Fig. \ref{fig:cores}, the times required for set up and completion of a 2D version of the $\mathbf{E}$-plane radiation pattern calculation are shown versus number of parallel cores used.  In Fig. \ref{fig:cores} (left), the data correspond to the \verb+set_epsilon+ function.  This function sets the boundary conditions that result from structures imported from our open-source CAD.  These calculations represent the majority of the time required to complete the run.  The total run times are shown in Fig. \ref{fig:cores} (right).  The times scale with the \textit{resolution} parameter, used to set the number of pixels per unit area.  The expectation for a 2D calculation is that set-up time or total time scales with resolution squared.  This expectation is represented by the solid black lines in Fig. \ref{fig:cores}.  While additional cores can accelerate set up and total times, too many cores yield only marginal gains, and can even slow the computation.  However, using 16 or 32 cores reduces total run time below the resolution-squared expectation.
+In Fig. \ref{fig:cores}, the times required for set up and completion of a 2D version of the $\mathbf{E}$-plane radiation pattern calculation are shown versus number of parallel cores used.  In Fig. \ref{fig:cores} (left), the data correspond to the \verb+set_epsilon+ function.  This function sets the boundary conditions that result from structures imported from our open-source CAD.  These calculations represent the majority of the time required to complete the run.  The total run times are shown in Fig. \ref{fig:cores} (right).  The times scale with the resolution parameter, used to set the number of pixels per unit area.  The expectation for a 2D calculation is that set-up time or total time scales with resolution squared.  This expectation is represented by the solid black lines in Fig. \ref{fig:cores}.  While additional cores can accelerate set up and total times, too many cores yield only marginal gains, and can even slow the computation.  However, using 16 or 32 cores reduces total run time below the resolution-squared expectation.
 
 \begin{figure}
 \centering
@@ -229,9 +220,9 @@ We first verified qualitatively that the S21 power varied appropriately with $\m
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.967GHz_Eplane.png}
-\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{rad_pattern_5.85GHz_Hplane.png}
-\caption{\label{fig:5} (Left) Black circles: the $\mathbf{E}$-plane radiation pattern data (5.967 GHz).  Black line: 3D MEEP simulation of $\mathbf{E}$-plane radiation pattern.  (Right) Black crosses: the $\mathbf{H}$-plane radiation pattern data (5.85 GHz). Black line: 3D MEEP simulation of $\mathbf{H}$-plane radiation pattern.}
+\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{ave_rad_pattern_5.9GHz_Eplane.png}
+\includegraphics[width=0.4\textwidth,trim=2cm 0cm 2cm 0cm,clip=true]{ave_rad_pattern_5.9GHz_Hplane.png}
+\caption{\label{fig:5} (Left) Black circles: the $\mathbf{E}$-plane radiation pattern data ([5.8-6.0] GHz).  Black line: 3D MEEP simulation of $\mathbf{E}$-plane radiation pattern.  (Right) Black crosses: the $\mathbf{H}$-plane radiation pattern data ([5.8-6.0] GHz). Black line: 3D MEEP simulation of $\mathbf{H}$-plane radiation pattern.}
 \end{figure}
 
 The polar plot ranges from -26 dB to 1 dB, and the data is normalized to 0 dB.  In the spherical coordinate system for an RF antenna radiating in the $x$-direction, linearly polarized in the $y$-direction, the $\mathbf{E}$-plane angle is the azimuthal angle as measured from the $x$-axis.  Thus, in Fig. \ref{fig:5} (left) the data and MEEP model peak at 0 dB when the angle is 0 degrees.  There is good agreement between the MEEP model and the measured S21 power.  In the same coordinate system, the zenith angle is the $\mathbf{H}$-plane angle.  Thus, in Fig. \ref{fig:5} (right) the data and MEEP model peak at 0 dB when the angle is 90 degrees.  As with the $\mathbf{E}$-plane, there is good agreement between the MEEP model and S21 power.
@@ -247,7 +238,7 @@ To measure the VSWR of the RF horn, we bolted the RF horn to the camera mount, a
 \caption{\label{fig:6} Circles: measured VSWR data, smoothed with a running average filter.  Line: VSWR from MEEP modeling.  The black circles have been shifted down to account for the impedance mismatch between 3D printed RF horn and coaxial cable. See text for details.}
 \end{figure}
 
-After the two-stage post-processing, the VSWR from MEEP modeling matched the measured VSWR once we shifted the measured VSWR down by a factor of 4.  The reason for this is the impedance mismatch between the line impedance from the coaxial cable, and the load impedance from the RF horn.  For example, if $Z_{\rm ant} = 200 \Omega$, and $Z_{\rm L} = 50 \Omega$, then the VSWR is a factor of 4 higher than it would be if the antenna were matched to the line ($Z_{\rm ant} = 50 \Omega$).  Though the measured $Z_{\rm ant}$ fluctuated between 50-200 $\Omega$, after converting to VSWR and scaling the data, we find a match to the MEEP calculation.  Two additional observations are important to note.  First, our VSWR calculation in MEEP was performed in 2D.  This makes the calculation simpler, but it is not necessary.  Second, the bandwidth of the network analyzer was limited to 6 GHz.  Though our measured data stops at 6 GHz in Fig. \ref{fig:6}, the simulated VSWR in Fig. \ref{fig:6} predicts good performance above 6 GHz.
+After the two-stage post-processing, the VSWR from MEEP modeling matched the measured VSWR once we shifted the measured VSWR down by a factor of 4.  The reason for this is the impedance mismatch between the line impedance from the coaxial cable, and the load impedance from the RF horn.  For example, if $Z_{\rm ant} = 200 \Omega$, and $Z_{\rm L} = 50 \Omega$, then the VSWR is a factor of 4 higher than it would be if the antenna were matched to the line ($Z_{\rm ant} = 50 \Omega$).  Though the measured $Z_{\rm ant}$ fluctuated between 50-200 $\Omega$, after converting to VSWR and scaling the data, we find a match to the MEEP calculation.  Two additional observations are important to note.  First, our VSWR calculation in MEEP was performed in 2D.  This makes the calculation simpler, but it is not necessary.  Second, the bandwidth of the network analyzer was limited to 6 GHz, so our data set stops at 6 GHz in Fig. \ref{fig:6}.  However, the simulated VSWR in Fig. \ref{fig:6} predicts VSWR values of $\approx 2$ up to 10 GHz.
 
 \subsection{Cross-Polarization Ratios}
 \label{sec:results_3}
@@ -259,7 +250,7 @@ P_{\rm r} = P_{\rm t} \cos^2\theta \label{eq:4}
 \end{equation}
 
 \noindent
-When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results are shown in Fig. \ref{fig:7}, and show good agreement with Eq. \ref{eq:4}.  The prediction from Eq. \ref{eq:4} tends to negative infinity in dB.  In this regime we find a cross-polarization ratio approaching -15 dB, which is comparable to most side-lobes in broadband RF antennas.
+When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results are shown in Fig. \ref{fig:7}, and show good agreement with Eq. \ref{eq:4}.  The prediction from Eq. \ref{eq:4} tends to negative infinity in dB.  In this regime we find a cross-polarization ratio approaching -15 dB, which is comparable to most side-lobes in broadband RF antennas.  A good reference for Eq. \ref{eq:4} may be found in the section on polarization mismatch in \cite{balanis}.
 
 \begin{figure}
 \centering
@@ -280,6 +271,12 @@ In Fig. \ref{fig:8}, the VSWR data from Fig. \ref{fig:6} is again plotted, but t
 \caption{\label{fig:8} Black circles: the VSWR data from Fig. \ref{fig:6}, with frequencies scaled down by a factor of 2.  Solid black line: VSWR from MEEP simulation using a CAD model scaled by a factor of 2.  Dashed line: the VSWR from MEEP simulation with RF cable and no RF horn.}
 \end{figure}
 
+\section{Innovations in this Research}
+
+In comparison to our computational work in RF design using MEEP \cite{hanson2021broadband-cab,meepcon_hanson}, this work contains four innovations.  First, we have completed the open-source design workflow, from open-source CAD and CEM to fabrication.  Second, we have succesfully 3D printed our design entirely with condutive filament, circumventing metallization and mixed material approaches.  This is perhaps the first example of a homogeneously printed broadband RF horn with conductive polymer.  The authors of \cite{yurduseven20193d-68d,yurduseven2017computational-82f} created antennas printed with Electrifi filament, but required PLA filament as the substrate.  The authors of \cite{alkaraki2020mmwave-bcd} constructed 5G steerable MIMO antenna using a microstrip patch and metallized 3D printed structure using Jet Metal Process (JMT). The authors of \cite{yoo2022hollow-9a5} also used a mixed materials approach with additional copper metalization to improve conductivity.
+
+Our third innovation is that our printed design matches our open-source CEM up to 6 GHz.  The importance of this innovation is that the cost of RF prototyping is significantly reduced.  Relying on open-source CEM tools like MEEP removes financial barriers to entry for students who cannot purchases RF modeling software that costs several thousand USD.  Though our current network analyzer is limited to 6 GHz, in future work we will validate our results at higher frequencies with a network analyzer of higher bandwidth.  Our fourth innovation is that our design, being fabricated from Electrifi filament, is $\approx 10$\% less dense than aluminum.  This yields a weight improvement for systems that must be carried by unmanned aerial platforms (UAPs).
+
 \section{Conclusions}
 \label{sec:conc}
 
@@ -287,7 +284,7 @@ The goal of this research is to demonstrate a fully open-source design and fabri
 
 In Sec. \ref{sec:mat_meth_1}, we shared example code that creates a 2D version of our 3D model using MEEP objects.  We also shared how radiation patterns are calculated using MEEP algorithms, and outlined how we calculate the VSWR.  We have created and run full 3D versions of the MEEP code used to produce the design calculations on our parallel HPC system.  For 3D CAD, we selected kLayout to create detailed models of the RF horn that can be imported as MEEP structures.  In Sec. \ref{sec:mat_meth_2}, we described how our kLayout designs are translated to AutoDesk Inventor (Free education version), and fed to our PrusaXL 3D printing system.  By relying on parametric design, the modeled system is geometrically identical to the fabricated system, within the precision of the 3D printer (about 0.2 mm).  The simulation results behave as expected, and can be modified by changing the parametric design parameters.  In Sec. \ref{sec:mat_meth_3}, we list the computational time requirements, showing the advantages and disadvantages of parallel MEEP calculations.
 
-In Secs. \ref{sec:results_1}-\ref{sec:results_3}, we showed that the measured radiation patterns in the $\mathbf{E}$ and $\mathbf{H}$ planes, the smoothed VSWR data, and the cross-polarization data all match MEEP calculations and theoretical expectations.  The natural direction of the work is to expand RF bandwidth by enlarging the RF horn design, and to explore and optimize alternate designs in MEEP.  In Sec. \ref{sec:results_4}, we predicted an expanded bandwith for our new, larger RF horn under fabrication.  Finally, we seek to print a set of $N$ identical broadband RF elements to form a broadband RF phased array, as envisioned in \cite{hanson2021broadband-cab}.  We hope to explore \textit{operating} the broadband RF phased array in a multibeam mode, using complex broadband source signals.
+In Secs. \ref{sec:results_1}-\ref{sec:results_3}, we showed that the measured radiation patterns in the $\mathbf{E}$ and $\mathbf{H}$ planes, the smoothed VSWR data, and the cross-polarization data all match MEEP calculations and theoretical expectations.  The natural direction of the work is to expand RF bandwidth by enlarging the RF horn design, and to explore and optimize alternate designs in MEEP.  In Sec. \ref{sec:results_4}, we predicted an expanded bandwith for our new, larger RF horn under fabrication.  Finally, we seek to print a set of $N$ identical broadband RF elements to form a broadband RF phased array, as envisioned in \cite{hanson2021broadband-cab}.  We hope to explore operating the broadband RF phased array in a multibeam mode, using complex broadband source signals.
 
 \vspace{6pt} 
 
@@ -314,7 +311,9 @@ NEEC & Naval Engineering Education Consortium \\
 NSWC Corona & Naval Surface Warfare Center, Corona Division \\
 RF & Radio-frequency \\
 PLA & Polylactice Acid \\
-PETG & Polyethylene Glycol 
+PETG & Polyethylene Glycol \\
+UAV & Unmanned aerial platforms \\
+USD & United States Dollars
 \end{tabular}
 }
 
