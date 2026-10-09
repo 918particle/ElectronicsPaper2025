@@ -21,15 +21,15 @@
 %=================================================================
 
 \Title{Broadband RF Design with MEEP: A Set of 3D-Printed Open-Source RF Horns in the multi-GHz Bandwidth}
-\TitleCitation{Title}
+\TitleCitation{Broadband RF Design with MEEP: A Set of 3D-Printed Open-Source RF Horns in the multi-GHz Bandwidth}
 \newcommand{\orcidauthorA}{0000-0003-4055-4553}
-\Author{Jordan C. Hanson $^{1}$\orcidA{}*, Adam Wildanger$^{1}$}
-\AuthorNames{Jordan C. Hanson, Adam Wildanger}
-\AuthorCitation{Hanson, J. C.; Wildanger, A.}
+\Author{Jordan C. Hanson $^{1}$\orcidA{}*, Gia Bao Dong$^{1}$, Sanyah Smith$^{1}$, Alexander Song$^{1}$, Almas Waseem$^{1}$, Natasha Waldorf$^{1}$, and Adam Wildanger$^{1}$}
+%\AuthorNames{Jordan C. Hanson et al}
+\AuthorCitation{J.C. Hanson et al}
 \address[1]{$^{1}$ \quad Whittier College, Whittier, CA, USA (www.whittier.edu)}
 \corres{Correspondence: jhanson2@whittier.edu}
 
-\abstract{Radio-frequency (RF) antenna design and fabrication traditionally proceeds in three phases.  First, the design performance is modeled with expensive, proprietary software.  Second, the design is built using precision metal machining or printed circuit board (PCB) fabrication.  Third, the result is characterized using RF measurement tools.  The process can include machine learning for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) package for design and simulation, and open-source 3D printing with conductive polymer for fabrication.  Using this process, we designed and fabricated a set of broadband RF horn antennas.  The radiation patterns and the VSWR match our MEEP calculations, while the cross-polarization ratio matches theoretical expectations.  These results indicate that our creations are linearly polarized, broadband RF horn antennas with bandwidth [5.5 - 18] GHz, or a fractional bandwidth of 106.4\%.  Because the maximum frequency of our network analyzer is 18 GHz, the absolute and fractional bandwidths are actually lower limits.  Our MEEP calculations indicate the fractional bandwidth could be as high as 120\%.  Our results represent one of the first designs fabricated exclusively via conductive additive manufacturing, circumventing the need for electroplating processes.  Future work will include the assembly of the set of RF horns into a phased array.}
+\abstract{Radio-frequency (RF) antenna design and fabrication traditionally proceeds in three phases.  First, the design performance is modeled with expensive, proprietary software.  Second, the design is built using precision metal machining or printed circuit board (PCB) fabrication.  Third, the result is characterized using RF measurement tools.  The process can include machine learning for optimization.  We have developed an open-source alternative process that utilizes the MIT Electromagnetic Equation Propagator (MEEP) package for design and simulation, and open-source 3D printing with conductive polymer for fabrication.  Using this process, we created a set of broadband RF horn antennas.  The radiation patterns and the VSWR match our MEEP calculations, while the cross-polarization ratio matches theoretical expectations.  These results indicate that our creations are linearly polarized, broadband RF horn antennas with bandwidth [4.0-18.0] GHz, or a fractional bandwidth of 127\%.  Because the maximum frequency of our network analyzer is 18 GHz, the absolute and fractional bandwidths are lower limits.  Our results represent one of the first designs fabricated repeatedly via conductive 3D printing, circumventing the need for electroplating processes.  Future work will include assembling the antennas into a phased array.}
 
 \keyword{Computational Electromagnetism (CEM), Additive Manufacturing, MEEP, \\ RF Engineering, Open-Source Design}
 
@@ -50,7 +50,7 @@ In this work, we present the first open-source, broadband, 3D printed set of RF 
 \section{Methods and Materials}
 \label{sec:mat_meth}
 
-The goal of this work was to use open CEM tools to design, model, and fabricate linearly polarized RF horn antennas in the [5-20] GHz range via additive manufacturing.  Figure \ref{fig:1} contains a diagram of the design and fabrication process.  Using parametric CAD design, we can specify antenna shapes using analytic functions that are then translated into the open CAD design tool kLayout.  Antenna designs created with kLayout can be imported into MEEP via the GDSII file format.  GDSII files can also be translated into 3D printer files, ensuring that the device and model match.  In Fig. \ref{fig:1a} (left), the CAD design in kLayout is shown.  In Fig. \ref{fig:1a} (middle)-(right), the model is rendered using Mayavi.
+The goal of this work was to use open CEM tools to design, model, and fabricate linearly polarized RF horn antennas in the [5-20] GHz range via additive manufacturing.  Figure \ref{fig:1} contains a diagram of the design and fabrication process.  Using parametric CAD design, we can specify antenna shapes using analytic functions that are then translated into the open CAD design tool kLayout.  Antenna designs created with kLayout can be imported into MEEP via the GDSII file format.  GDSII files can also be translated into 3D printer files, ensuring that the device and model match.  In Fig. \ref{fig:1a} (left), the CAD design in kLayout is shown.  In Fig. \ref{fig:1a} (middle) and (right), the model is rendered using Mayavi.
 
 Our open fabrication technique hinges on the existence of commerically available conductive 3D printer filament.  Multi3D\footnote{See \url{https://www.multi3dllc.com}} has shown that a copper-doped thermoplastic serves as a 3D printer filament with resistivities of $\approx 10^{-1}$ $\Omega$ cm, depending on the printing pattern.  Using a tungsten-tipped 3D printing head and Electrifi filament from Multi3D, we can complete antenna prints with volumes of $\approx 350$ cm$^3$ in several hours.  The printed structures are fitted with RF connectors and tested as receivers on custom mounts that swivel in zenith and azimuthal angles.  A network analyzer with bandwidth [0-18] GHz was used to measure complex S11 and S21 parameters, with a calibrated log-periodic dipole array (LPDA) antenna as the transmitter.
 
@@ -69,16 +69,16 @@ The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Fig. \
 
 \begin{figure}
 \centering
-\includegraphics[width=0.65\textwidth]{CAD_path.pdf}
+\includegraphics[width=0.95\textwidth]{CAD_path.pdf}
 \caption{\label{fig:1} Flow diagram for the open-source design and fabrication process.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.255\textwidth]{CAD_1.png}
-\includegraphics[width=0.3\textwidth]{snapshot2.png}
-\includegraphics[width=0.3\textwidth]{snapshot3.png}
-\caption{\label{fig:1a} (Left) The kLayout CAD design for the RF horn (top view), with a coaxial cable attached.  The $x$-direction is to the right, the $y$-direction is up, and the $z$-direction is out of the page.  The white ruler gives 16.741 cm. (Middle)-(Right) Viewing the RF horn and cable model from alternate angles.}
+\includegraphics[width=0.28\textwidth]{CAD_1.png}
+\includegraphics[width=0.33\textwidth]{snapshot2.png}
+\includegraphics[width=0.33\textwidth]{snapshot3.png}
+\caption{\label{fig:1a} (Left) The kLayout CAD design for the RF horn (top view), with a coaxial cable attached.  The $x$-direction is to the right, the $y$-direction is up, and the $z$-direction is out of the page.  The white ruler gives 16.741 cm. (Middle and Right) The RF horn and cable model from alternate angles.}
 \end{figure}
 
 \begin{table}
@@ -98,9 +98,18 @@ Height & z & 2.0 \\
 
 In previous studies \cite{hanson2021broadband-cab}, antenna structures were instantiated directly as native MEEP objects.  In the present workflow, the antenna geometry is instead generated parametrically and transferred to kLayout, where it can be inspected and exported in GDSII format.  The same geometry is then used for the MEEP calculation and for conversion to a printable 3D model.  This approach preserves the flexibility of a scripted parametric design while avoiding the need to reproduce a complex antenna from many simple MEEP primitives.  The implementation code used to generate and simulate the antenna is maintained in the open-source project repository cited in the Data Availability Statement.
 
+\subsubsection{VSWR Calculations}
+
+The voltage standing wave ratio (VSWR) is expressed in terms of the magnitude of the complex reflection coefficient $\Gamma$ at the antenna input port \cite{pozar}:
+\begin{equation}
+\mathrm{VSWR}=\frac{1+|\Gamma|}{1-|\Gamma|}.
+\label{eq:3}
+\end{equation}
+In the MEEP model, a broadband excitation is launched through the modeled coaxial feed.  A MEEP \texttt{FluxMonitor} is used to separate the incident and reflected contributions at the input line, from which $\Gamma$ and the corresponding VSWR are calculated\footnote{See \url{https://meep.readthedocs.io/en/latest/Python_Tutorials/GDS_Import}.}.  The model is fully three-dimensional and uses the material properties of the Electrifi filament.  Implementation details and source code are provided in the open-source repository cited in the Data Availability Statement.
+
 \subsubsection{Radiation Pattern Calculations}
 
-We compute the antenna radiation pattern in MEEP using near-to-far field projection\footnote{See \url{https://meep.readthedocs.io/en/master/Python_Tutorials/Near_to_Far_Field_Spectra}}.  A \verb+NearToFarRegion+ encloses the radiating structure, and the \verb+meep.get_farfield()+ routine is used to evaluate the complex electric and magnetic fields in the far field.  In the coordinate system of Fig. \ref{fig:1a}, the horn boresight is the $+x$ direction, the $xy$-plane is the $\mathbf{E}$-plane, and the $xz$-plane is the $\mathbf{H}$-plane.
+We compute the antenna radiation pattern in MEEP using near-to-far field projection\footnote{See \url{https://meep.readthedocs.io/en/master/Python_Tutorials/Near_to_Far_Field_Spectra}.}.  A \verb+NearToFarRegion+ encloses the radiating structure, and the \verb+meep.get_farfield()+ routine is used to evaluate the complex electric and magnetic fields in the far field.  In the coordinate system of Fig. \ref{fig:1a}, the horn boresight is the $+x$ direction, the $xy$-plane is the $\mathbf{E}$-plane, and the $xz$-plane is the $\mathbf{H}$-plane.
 
 The time-averaged Poynting vector is
 \begin{equation}
@@ -116,71 +125,106 @@ P_{\rm norm}(\alpha)=10\log_{10}\left[\frac{P_{\rm r}(\alpha)}{\max(P_{\rm r})}\
 \end{equation}
 The corresponding source code is maintained in the open-source repository cited in the Data Availability Statement.
 
-\subsubsection{VSWR Calculations}
-
-The voltage standing wave ratio (VSWR) is expressed in terms of the magnitude of the complex reflection coefficient $\Gamma$ at the antenna input port \cite{pozar}:
-\begin{equation}
-\mathrm{VSWR}=\frac{1+|\Gamma|}{1-|\Gamma|}.
-\label{eq:3}
-\end{equation}
-In the MEEP model, a broadband excitation is launched through the modeled coaxial feed.  Flux-monitor normalization is used to separate the incident and reflected contributions at the input line, from which $\Gamma$ and the corresponding VSWR are calculated.  The updated model is fully three-dimensional and uses the same imported CAD geometry as the radiation-pattern calculations.  Implementation details and source code are provided in the open-source repository cited in the Data Availability Statement.
-
 \subsection{Fabrication Technique}
 \label{sec:mat_meth_2}
 
-The parametric horn geometry was converted from the kLayout/GDSII design into a printable 3D model and fine-tuned for fabrication.  The antennas were printed directly from Multi3D Electrifi conductive filament on a Prusa XL equipped with a tungsten-tipped nozzle.  Electrifi was printed at approximately 135--145$^{\circ}$C without bed heating.  Because the horn is tall and narrow, masking tape with adhesive and removable buttresses were used to improve build-plate adhesion and mechanical stability during printing.  After printing, the temporary supports were removed and an SMA connector was attached to the cavity so that the center conductor extended into the feed region.  No secondary electroplating or conductive coating was applied to the radiating structure.  One example of the RF horns is shown in Fig. \ref{fig:3}, with a ruler for scale.
+The parametric horn geometry was converted from the kLayout/GDSII design into a printable 3D model and fine-tuned for fabrication.  The antennas were printed directly from Multi3D Electrifi conductive filament on a Prusa XL equipped with a tungsten-tipped nozzle.  Electrifi was printed at approximately 135--145$^{\circ}$C without bed heating.  Because the horn is tall and narrow, masking tape with adhesive and removable buttresses were used to improve build-plate adhesion and mechanical stability during printing.  After printing, the temporary supports were removed and an SMA connector was attached to the cavity so that the center conductor extended into the feed region.  No secondary electroplating or conductive coating was applied to the radiating structure.  One example of the RF horns is shown in Fig. \ref{fig:3}, with a 12-inch ruler for scale.
 
 \section{Results}
 \label{sec:results}
 
-Using the techniques described in Sec. \ref{sec:mat_meth_2}, we fabricated eight RF horns with the parameters in Tab. \ref{tab:1}.  As listed in Tab. \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Fig. \ref{fig:3}).  The dimensions of the opening are 2.5 x 8.5 cm, including the 0.25 cm thickness in the z-direction.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the radiation is linearly polarized in the y-direction (see Sec. \ref{sec:mat_meth_1}).
+Using the techniques described in Sec. \ref{sec:mat_meth_2}, we fabricated eight RF horns with the parameters in Tab. \ref{tab:1}.  As listed in Tab. \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Fig. \ref{fig:3}).  The dimensions of the opening are 2.5 x 8.5 cm, including the 0.25 cm thickness in the z-direction.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the radiation is linearly polarized in the y-direction (see Sec. \ref{sec:mat_meth_1}).  A network analyzer was used to measure the S11 and S21 parameters across the bandwidth.  The RF horns were determined to efficiently radiate linearly polarized radiation in the [5.5-18] GHz band.  In Sec. \ref{sec:vswr}, the S11 results are formed into the VSWR parameter, and graphed versus frequency.  In Sec. \ref{sec:rad_patterns}, the S21 results are formed into radiation patterns, and plotted versus the azimuth and zenith angles.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.25\textwidth,angle=90]{antenna_1.jpg}
 \includegraphics[width=0.45\textwidth]{antenna_2.jpg}
-\caption{\label{fig:3} (Left) The Prusa XL 3D printer beginning a print with the Electrifi filament. (Middle) The finished RF horn with SMA connector. (Right) The finished RF horn viewed with opening visible.}
+\caption{\label{fig:3} Views of an example of our 3D printed RF horns.  The horn is approxmately 16 cm long.}
 \end{figure}
 
+\subsection{VSWR Results}
+\label{sec:vswr}
+
+The VSWR results are presented in Fig. \ref{fig:vswr_lab}.  The 3D printed RF horn was mounted to a tripod and pointed at the ceiling.  The antennas were connected to port 1 of an Agilent Technologies E5063A network analyzer [100 kHz - 18 GHz] via a 6 ft. Coleman Cable 8421F M17/75-RG214 N-type coaxial cable and an SMA to N connector.  The network analyzer was calibrated across the entire bandwidth using a calibration kit consisting of short, open, and $50$ $\Omega$ terminators.  Once calibrated, the network analyzer was used to record the S11 parameter for each of the eight RF horns.  The analyzer was set to average mode with 999 traces in the average (2.5\% smoothing), using the entire bandwidth.  The trace was recorded for each horn, and the data in Fig. \ref{fig:vswr_lab} represent the average across all horns.
+
+Our MEEP CAD matches the dimensions of the RF horns, and we assume a resistivity of 0.01 $\Omega$ cm, from the Electrifi technical specifications (\url{https://www.multi3dmaterials.com}).  The MEEP simulation is first executed assuming only the coaxial cable portion.  The dielectric portion of the coaxial cable was modeled in MEEP as a lossy medium with relative permittivity $\varepsilon_r=2.0$ and a loss tangent of $\approx 10^{-3}$.  All other surfaces, including the exterior of the cable, were modeled using \texttt{mp.metal} (ideal conductivity).  An RF pulse is sent from a radially-polarized source coaxial with the cable conductor.  The pulse energy passes a \texttt{FluxMonitor} MEEP object, recording the flux at each frequency bin.  The simulation is then reset, and the RF horn structure is added to the cable.  The simulation is run a second time, with $-1$ times original flux pre-loaded to the \texttt{FluxMonitor}.  The reflection coefficient $\Gamma$ was calculated by taking the complex ratio of reflected flux (minus the incident flux in the second run), to the incident flux in the first run.  The VSWR is found using Eq. \ref{eq:3}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.49\textwidth]{vswr_vs_lab_1.pdf}
+\includegraphics[width=0.49\textwidth]{vswr_vs_lab_2.pdf}
+\caption{\label{fig:vswr_lab} (Left) Average VSWR for all antennas (gray line), and MEEP calculation of the VSWR (black line), assuming \texttt{D\_conductivity=0.01}. (Right) Same, for \texttt{D\_conductivity=0.02}.}
+\end{figure}
+
+The lab data shows an exponential decrease in VSWR between 0 and 4 GHz.  The VSWR data reach $\lesssim 2.5$ at 4 GHz, when the free-space $\lambda/2 \approx 3.75$ cm.  The data indicate radiation is leaving the cable and entering the RF horn cavities efficiently above 4 GHz.  The VSWR approaches 1 at frequencies $>4$ GHz, and shows no sign of rising even as the 18 GHz bandwidth limit is reached.  Thus, we conclude that the conservative estimate on the measured bandwidth is [4-18] GHz, with a fractional bandwidth of 127\%.  The theoretical maximum fractional bandwidth is 200\%, and the 127\% value is limited by the instrumentation, not the 3D printed antennas.
+
+Above 4 GHz, the MEEP calculations accurately predict the VSWR to be between 1 and 2.  Below 4 GHz, there are two effects that alter the simulation relative to the lab data.  First, 4 GHz corresponds to an unrealistic mode cutoff in our cable model.  The coaxial cable model is a rectangular prism from our CAD with the correct lateral dimensions, extended into the z-direction.  In our GDSII file, there is a central conductor, a surrounding dielectric layer, and outer conductor layers.  This works well above 4 GHz, where mode cutoffs are irrelevant.  Second, the finite conductivity of the dielectic must be chosen such that the loss tangent gives the right behavior at lower frequencies.  We find that loss tangents corresponding to the MEEP parameter \texttt{D\_conductivity} of 0.01 to 0.02 improve the match below 4 GHz.  The smooth transition from high to low VSWR, however, is not modeled.
+
 \subsection{Radiation Patterns}
+\label{sec:rad_patterns}
+
+The radiation pattern results are presented in Figs. \ref{fig:rad_pattern1} and \ref{fig:rad_pattern2}.  Again, the 3D printed RF horn was mounted to a tripod.  For these measurements, the 3D printed horns were connected to port 2 of the network analyzer via the RG214 N-type coaxial cable and an SMA to N connector.  Port 2 was configured as the receiving port.  Port 1 was configured as the transmitting port, and connected to an A.H. Systems SAS-510-7 log-periodic dipole array (LPDA) via a Gore PhaseFlex coaxial cable.  The LPDA and 3D printed horn were co-polarized, and mounted to a separate tripod.  The network analyzer calibrated, and set to the bandwidth [5.5-18] GHz, where the received S21 signal was $>10$ dB above thermal backgrounds.  No RF amplifier was used in the S21 setup.  The S21 parameter was recorded at 5 degree intervals in the E-plane and H-plane for HORN1.  The different angles were arranged by adjusting the tripod mounting mechanisms, and measured with an electronic level.  Once the technique was established, the S21 was measured at 10 degree intervals for the E-plane and H-plane for HORN1-HORN8.  For each angle and horn, the recorded S21 trace was an average of 999 measured traces (2.5\% smoothing).
 
 \begin{figure}
 \centering
-\includegraphics[width=0.48\textwidth]{HORN1_8_E_plane_ensemble_6p3_with_projected_flux_MEEP.pdf}
-\includegraphics[width=0.48\textwidth]{HORN1_8_E_plane_ensemble_12p3_with_projected_flux_MEEP.pdf} \\
-\includegraphics[width=0.48\textwidth]{HORN1_8_H_plane_ensemble_6p3_with_projected_flux_MEEP.pdf}
-\includegraphics[width=0.48\textwidth]{HORN1_8_H_plane_ensemble_12p3_with_projected_flux_MEEP.pdf}
-\caption{\label{fig:rad_pattern} ss}
+\includegraphics[width=0.49\textwidth]{ave_E_plane_rad_pattern.png}
+\includegraphics[width=0.49\textwidth]{ave_H_plane_rad_pattern.png}
+\caption{\label{fig:rad_pattern1} (Left) E-plane radiation pattern data (black circles) for HORN1, at 5.9 GHz, along with the MEEP calculation (line).  (Right) H-plane radiation pattern data (black crosses) for HORN1, at 5.9 GHz, along with the MEEP calculation (line).}
 \end{figure}
+
+Figure \ref{fig:rad_pattern1} contains the data taken for HORN1.  Figure \ref{fig:rad_pattern1} (left) corresponds to the E-plane at 5.9 GHz, and Fig. \ref{fig:rad_pattern1} (right) corresponds to the H-plane at 5.9 GHz.  At the time HORN1 was printed, we had access to an older network analyzer with [100 kHz - 6 GHz] bandwidth.  Thus, S21 was averaged from 5.8 to 6.0 GHz.   For the E-plane graph, the angle being plotted is the azimuthal angle in the xy-plane, and the boresight corresponds to 0 degrees.  For the H-plane graphs, the angle being plotted is the zenith angle in the xz-plane, and the boresight corresponds to 90 degrees.  Normally, the S21 power is disaggregated by frequency, and separate radiation patterns are graphed for separate frequencies.  However, as we averaged over [5.8-6.0] GHz, there is a single radiation pattern at the center frequency of 5.9 GHz.  Radiation patterns are typically normalized to the S21 power at boresight, so the largest power is 0 dB in each plot.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.49\textwidth,trim=0cm 0cm 0cm 2cm,clip=true]{HORN1_8_E_plane_ensemble_6p3_with_projected_flux_MEEP.pdf}
+\includegraphics[width=0.49\textwidth,trim=0cm 0cm 0cm 2cm,clip=true]{HORN1_8_E_plane_ensemble_12p3_with_projected_flux_MEEP.pdf} \\
+\includegraphics[width=0.49\textwidth,trim=0cm 0cm 0cm 2cm,clip=true]{HORN1_8_H_plane_ensemble_6p3_with_projected_flux_MEEP.pdf}
+\includegraphics[width=0.49\textwidth,trim=0cm 0cm 0cm 2cm,clip=true]{HORN1_8_H_plane_ensemble_12p3_with_projected_flux_MEEP.pdf}
+\caption{\label{fig:rad_pattern2} (Top left) Average E-plane data for HORNS1-8, at 6.3 GHz.  (Top right)  Average E-plane data for HORNS1-8, at 12.3 GHz.  (Bottom left)  Average H-plane data for HORNS1-8, at 6.3 GHz.  (Bottom right)  Average H-plane data for HORNS1-8, at 12.3 GHz.}
+\end{figure}
+
+The MEEP calculation matches the main lobe precisely in both cases, E and H-plane.  MEEP correctly predicts that the width of the pattern is narrower in the E-plane compared to the H-plane.  Side lobes are visible in the patterns at $\pm 45$ degrees in the E-plane.  Side lobes with relative powers of -15 dB are common in RF horn designs.  MEEP correctly predicts the location of the side lobes, and comes close to modeling the side-lobe-level.  MEEP also correctly characterizes the back lobe levels in the E and H-plane, which are also below -15 dB.  Side lobes and back lobes are caused by radiation that diffracts around the edge of the RF horn opening.
+
+Figure \ref{fig:rad_pattern2} contains the average data taken from HORN1-HORN8.  The S21 power was disaggregated by frequency, and separate radiation patterns are graphed for separate frequencies, but averaged across RF horns.  The frequencies were binned in 1 GHz bins, and the first bin center is at 6.3 GHz, so the lower edge of that bin is 5.8 GHz.  Below this frequency, noise started to interfere with our S21 measurements.  Thus, the frequency bins centers were set to 6.3, 7.3, ... 17.3 GHz.  Figure \ref{fig:rad_pattern2} (top left) shows the average E-plane radation pattern at 6.3 GHz, while (top right) shows the same at 12.3 GHz.  Figure \ref{fig:rad_pattern2} (bottom left) shows the H-plane data at 6.3 GHz, while (bottom right) shows the same at 12.3 GHz.  The same azimuthal, zenith, and normalization conventions from Fig. \ref{fig:rad_pattern1} are used in Fig. \ref{fig:rad_pattern2}.
+
+The MEEP calculation matches the main lobes, and predicts some side lobe and back lobe behavior.  The match becomes more challenging at high frequencies when higher-order harmonics begin to fit within the horn body.  At low frequencies, the side-lobe-levels and back lobe levels and locations are well modeled.  At high frequencies, we measured larger back lobes than those predicted by MEEP.  However, this is likely due to leaked power in our measured data.  At high frequencies, we observe power captured by the N-to-SMA connector and cable, even without the 3D printed antennas attached.  This leaked power level is small, but measurable at the -15 dB level.  Apparently, it does not occur in every SMA-RF horn connection, because it was not observed in the data in Fig. \ref{fig:rad_pattern1}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{October_5th.pdf}
+\caption{\label{fig:rad_pattern3} The S21 versus frequency before (circles) and after (stars) filing the 3D printed horn.}
+\end{figure}
+
+An interesting facet of RF antenna fabrication arose after 3D printing our units.  The raw units finished with spurs and droplets of extra filament that acted as miniature antennas.  These surface imperfections decreased the initial S21 power.  After removing them with files and sandpaper, the inner surfaces of the horns were smoother.  The result was a $\approx 10$ dB increase in S21 power.  The results for HORN4 are shown in Fig. \ref{fig:rad_pattern3}.  In this case, the data is binned in 1 GHz bins centered at 6, 7, ... 18 GHz.  The gain in S21 is largest in the middle of the band.  It is difficult to explain the subtle variation in S21 gain due to smoothing and filing, because the imperfections varied in size.  However, we learned that smoothing is an important step in the fabrication process.
 
 \subsection{Cross-Polarization Ratios}
 \label{sec:results_3}
 
-The cross-polarization ratio was measured with the 3D printed RF horn and LPDA arranged in an S21 measurement configuration.  The RF horn was the receiver, and bolted to the mount such that an inclinometer would measure cross-polarization angle.  The prediction for the dependence of received power versus cross-polarization angle is known from optics and antenna theory.  Let $P_{\rm r}$ be the received power, $P_{\rm t}$ be the transmitted power, and $\theta$ be the cross-polarization angle.  These are related by
+The cross-polarization results are shown in Fig. \ref{fig:7}.  The cross-polarization ratio was measured with the 3D printed RF horns and LPDA arranged in the same S21 configuration as the radiation pattern data.  The cross-polarization angle was measured with an electronic level.  The prediction for the dependence of received power versus cross-polarization angle is known from optics and antenna theory.  Let $P_{\rm r}$ be the received power, $P_{\rm t}$ be the transmitted power, and $\theta$ be the cross-polarization angle.  These are related by
 
 \begin{equation}
 P_{\rm r} = P_{\rm t} \cos^2\theta \label{eq:4}
 \end{equation}
 
 \noindent
-When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results are shown in Fig. \ref{fig:7}, and show good agreement with Eq. \ref{eq:4}.  The prediction from Eq. \ref{eq:4} tends to negative infinity in dB.  In this regime we find a cross-polarization ratio approaching -15 dB, which is comparable to most side-lobes in broadband RF antennas.  A good reference for Eq. \ref{eq:4} may be found in the section on polarization mismatch in \cite{balanis}.
+When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results for HORN1 at 5.9 GHz are shown in Fig. \ref{fig:7}, and show good agreement with Eq. \ref{eq:4}.  As the cross-polarization angle approaches 90 degrees, the prediction from Eq. \ref{eq:4} tends to negative infinity in dB.  In this regime we find a cross-polarization ratio approaching -15 dB, which is comparable to the measured side-lobe-level.  A good reference for Eq. \ref{eq:4} may be found in the section on polarization mismatch in \cite{balanis}.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.65\textwidth]{crosspol_5.80GHz.pdf}
-\caption{\label{fig:7} Circles: measured cross-polarization ratio in dB relative to maximum power.  Line:  Prediction from Equation \ref{eq:4}.}
+\caption{\label{fig:7} (Circles) The measured cross-polarization ratio in dB. (Line) The prediction from Eq. \ref{eq:4}.}
 \end{figure}
 
-\section{Conclusions}
+\section{Conclusions and Next Steps}
 \label{sec:conc}
 
-This work establishes an open-source workflow coupling parametric antenna design, kLayout/GDSII geometry, MEEP electromagnetic modeling, and direct conductive additive manufacturing.  The RF horn is printed directly from conductive Electrifi filament without a secondary metallization step, and the resulting hardware can be modeled using the same geometry used for fabrication.  The retained cross-polarization measurement follows the expected $\cos^{2}\theta$ dependence for a linearly polarized antenna.
+This work establishes an open-source design and fabrication process joining parametric design, open-source CAD, CEM with MEEP, and conductive 3D printing via Electrifi filament and Prusa XL printers.  Our process eliminates the need for electroplating or coating, and the need for expensive, proprietary modeling software.  The VSWR, radiation pattern, and cross-polarization data consistently match expectations and, in most-cases, are well-modeled by MEEP.  \textbf{Our fabricated designs have measured bandwidth of at least [4-18] GHz, with fractional bandwidth $>127\%$.}  To our knowledge, these results are at least at the cutting edge of 3D printed RF antennas, and are potentially ground-breaking, given the limitations of our instrumentation.
 
-The broadband RF characterization and the updated comparison between the measured antennas and the three-dimensional MEEP model will be incorporated into the revised Results and Discussion using the expanded measurement set.
+The next step in the research is to assemble the RF horns into a phased array.  Using a 1-to-8 RF power splitter, and programmable phase shifters, we plan to show that the collective beam from $1\times 8$ and $2\times 4$ configurations is steerable and broadband.  Thus, we have taken a significant step towards producing the first completely 3D printed, RF broadband phased array.  Once we have shown that the phased array is steerable, we plan to investigate the broadband capabilities of the design.  For example, broadband phased arrays can produce grating lobes that can be steered independently by sweeping the frequency across a wide range.  Coincidence between a low-frequency beam steered with phase shifts, and a high frequency beam steered with a sweeping frequency, could represent an interesting way to improve sensing capability.
 
 \vspace{6pt} 
 
-\authorcontributions{J. C. Hanson (JCH) conceived of the open-source design process, produced the MEEP calculations that led to the RF horn design, identified the conductive 3D printer filament, incorporated open-source CAD, and produced fully three-dimensional CEM models to compute the VSWR and radiation patterns for the fabricated designs.  A. Wildanger (AW) sourced materials, and imported CAD designs into 3D printing format, and completed 3D prints to produce the designs.  Together, JCH and AW collected data using the RF measurement tools.  JCH used the data to show that the MEEP calculations match the lab measurements.  AW is exploring new models to be printed, including larger RF horn models.}
+\authorcontributions{J. C. Hanson conceived of the open-source design process, produced the MEEP calculations that led to the first RF horn design, identified the conductive 3D printer filament, incorporated open-source CAD, and produced fully three-dimensional CEM models to compute the VSWR and radiation patterns for the fabricated designs.  A. Wildanger and Gia Bao Dong sourced materials, and imported CAD designs into 3D printing format, and completed 3D prints to produce the designs.  S. Smith, A. Song, and N. Waldorf wrote and tested MEEP models, greatly improving code organization and structure, while exploring new ways to steer phased arrays.  A. Waseem discovered a way to compile and run MEEP such that it can take advantage of GPUs, greatly accelerating our calculations.  Finally, J.C. Hanson and Gia Bao Dong measured the VSWR, radiation pattern, and cross-polarization data, and J.C. Hanson produced the graphs.}
 
 \funding{This work was supported by NEEC grant N00178-25-0001 through NSWC Corona.  Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author and do not necessarily reflect the views of NSWC Corona or the Department of the Navy.}
 
@@ -196,30 +240,15 @@ The following abbreviations are used in this manuscript:
 \noindent 
 \begin{tabular}{@{}ll}
 CEM & Computational Electromagnetism \\
-HPC & High-Performance Computing \\
 LPDA & Log-periodic Dipole Array \\
 MEEP & MIT Electromagnetic Equation Propagator \\
 NEEC & Naval Engineering Education Consortium \\
 NSWC Corona & Naval Surface Warfare Center, Corona Division \\
-RF & Radio-frequency \\
-PLA & Polylactice Acid \\
-PETG & Polyethylene Glycol \\
-UAV & Unmanned aerial platforms \\
-USD & United States Dollars
+RF & Radio-frequency
 \end{tabular}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Optional
-%\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
-%\appendixstart
-%\appendix
-%\section[\appendixname~\thesection]{}
-%The appendix is an optional section that can contain details and data supplemental to the main text
-%\section[\appendixname~\thesection]{}
-%All appendix sections must be cited in the main text. 
-
-\begin{adjustwidth}{-\extralength}{0cm}
+\begin{adjustwidth}{-\extralength}{0cm} \vspace{2cm}
 
 \reftitle{References}
 
