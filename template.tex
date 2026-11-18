@@ -18,6 +18,8 @@
 
 %=================================================================
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
 %=================================================================
 
 \Title{Broadband RF Design with MEEP: A Set of 3D-Printed Open-Source RF Horns in the multi-GHz Bandwidth}
@@ -133,7 +135,7 @@ The parametric horn geometry was converted from the kLayout/GDSII design into a 
 \section{Results}
 \label{sec:results}
 
-Using the techniques described in Sec. \ref{sec:mat_meth_2}, we fabricated eight RF horns with the parameters in Tab. \ref{tab:1}.  As listed in Tab. \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Fig. \ref{fig:3}).  The dimensions of the opening are 2.5 x 9.59 cm, including the 0.25 cm thickness in the z-direction.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the radiation is linearly polarized in the y-direction (see Sec. \ref{sec:mat_meth_1}).  A network analyzer was used to measure the S11 and S21 parameters across the bandwidth.  In Sec. \ref{sec:vswr}, the S11 results are formed into the VSWR parameter, and graphed versus frequency.  In Sec. \ref{sec:rad_patterns}, the S21 results are formed into radiation patterns, and plotted versus the azimuth and zenith angles.
+Using the techniques described in Sec. \ref{sec:mat_meth_2}, we fabricated eight RF horns with the parameters in Tab. \ref{tab:1}.  As listed in Tab. \ref{tab:1}, the RF horn is 16.5 cm long (see ruler in Fig. \ref{fig:3}).  The dimensions of the opening are $8.5 \times 2.5$ cm$^2$.  The SMA connector is mounted to the cavity, with a coaxial pin extending into the chamber such that the radiation is linearly polarized in the y-direction (see Sec. \ref{sec:mat_meth_1}).  A network analyzer was used to measure the S11 and S21 parameters across the bandwidth.  In Sec. \ref{sec:vswr}, the S11 results are formed into the VSWR parameter, and graphed versus frequency.  In Sec. \ref{sec:rad_patterns}, the S21 results are formed into radiation patterns, and plotted versus the azimuth and zenith angles.
 
 \begin{figure}
 \centering
@@ -141,6 +143,89 @@ Using the techniques described in Sec. \ref{sec:mat_meth_2}, we fabricated eight
 \includegraphics[width=0.45\textwidth]{antenna_2.jpg}
 \caption{\label{fig:3} Views of an example of our 3D printed RF horns.  The horn is approximately 16 cm long.}
 \end{figure}
+
+\begin{table*}[t]
+\centering
+
+\begin{minipage}[t]{0.485\textwidth}
+\centering
+\footnotesize
+\captionof{table}{Measured performance of Horn~1 in 1~GHz frequency
+bins. The realized gain $G_{\rm r}$ was obtained using the three-antenna
+method after de-embedding measured cable loss. The corrected gain $G$
+additionally removes impedance-mismatch loss using the calibrated VSWR.
+Pattern-derived directivity $D_{\rm pat}$ was estimated from the measured
+normalized E- and H-plane radiation patterns. Radiation efficiency is
+$\eta_{\rm rad}=G/D_{\rm pat}$.}
+\label{tab:horn1_gain_directivity}
+
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+$f$ &
+VSWR &
+$G_{\rm r}$ &
+$G$ &
+$D_{\rm pat}$ &
+$\eta_{\rm rad}$ \\
+(GHz) & & (dBi) & (dBi) & (dBi) & (\%) \\
+\midrule
+ 6.3 & 30.34 & -4.15 &  4.70 & 14.74 &  9.92 \\
+ 7.3 & 20.56 &  1.19 &  8.56 & 15.22 & 21.56 \\
+ 8.3 & 10.73 &  5.05 &  9.95 & 15.07 & 30.74 \\
+ 9.3 &  5.21 &  8.03 & 10.66 & 16.24 & 27.63 \\
+10.3 &  5.02 &  9.09 & 11.66 & 16.27 & 34.63 \\
+11.3 &  4.29 & 10.30 & 12.44 & 15.77 & 46.52 \\
+12.3 &  6.68 & 11.15 & 14.70 & 15.72 & 79.11 \\
+13.3 &  3.37 & 12.92 & 14.47 & 16.20 & 67.14 \\
+14.3 &  2.07 & 13.95 & 14.52 & 16.79 & 59.39 \\
+15.3 &  1.74 & 13.07 & 13.40 & 17.17 & 42.02 \\
+16.3 &  3.38 & 13.20 & 14.71 & 17.39 & 53.99 \\
+17.3 &  2.28 & 11.71 & 12.51 & 16.70 & 38.09 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.485\textwidth}
+\centering
+\footnotesize
+\captionof{table}{Ensemble-mean measured performance of Horns~2--8 in
+1~GHz frequency bins. Gain quantities are ensemble means in linear power.
+The realized gain $G_{\rm r}$ is corrected for measured cable loss, while
+$G$ additionally removes impedance-mismatch loss using the individually
+calibrated VSWR measurements. Pattern-derived directivity $D_{\rm pat}$
+was obtained from the ensemble radiation patterns. Radiation efficiency
+is $\eta_{\rm rad}=G/D_{\rm pat}$.}
+\label{tab:horns2to8_gain_directivity}
+
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+$f$ &
+VSWR &
+$G_{\rm r}$ &
+$G$ &
+$D_{\rm pat}$ &
+$\eta_{\rm rad}$ \\
+(GHz) & & (dBi) & (dBi) & (dBi) & (\%) \\
+\midrule
+ 6.3 & 8.49 & -11.89 & -7.46 & 13.80 &  0.75 \\
+ 7.3 & 6.83 &  -5.99 & -2.38 & 13.94 &  2.33 \\
+ 8.3 & 4.33 &  -2.75 & -0.46 & 13.77 &  3.77 \\
+ 9.3 & 2.56 &  -0.84 &  0.23 & 14.88 &  3.43 \\
+10.3 & 2.99 &  -0.06 &  1.28 & 15.07 &  4.18 \\
+11.3 & 2.69 &   1.21 &  2.29 & 14.43 &  6.11 \\
+12.3 & 4.62 &   2.08 &  4.49 & 14.31 & 10.44 \\
+13.3 & 2.36 &   3.26 &  4.13 & 15.03 &  8.12 \\
+14.3 & 1.75 &   3.65 &  4.02 & 14.96 &  8.04 \\
+15.3 & 1.39 &   2.86 &  2.99 & 15.39 &  5.75 \\
+16.3 & 2.51 &   2.46 &  3.35 & 15.51 &  6.08 \\
+17.3 & 1.94 &   1.26 &  1.75 & 15.14 &  4.58 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+
+\end{table*}
 
 \subsection{VSWR Results}
 \label{sec:vswr}
