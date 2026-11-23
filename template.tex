@@ -146,7 +146,7 @@ Back cavity & \texttt{mp.metal} & \texttt{mp.metal} \\
 Coaxial cable & round coax, \texttt{mp.metal} pin and outer conductor; & not modeled \\
  & pin 1.27 mm, dielectric 4.11 mm diameter, $\varepsilon_r = 2.0$, $\sigma_D = 0.02$ & \\
 Resolution & 20 pixels per cm (0.5 mm cells) & 20 pixels per cm (0.5 mm cells) \\
-Domain (incl. PML) & $35 \times 68 \times 20$ cm & horn extent plus 20 cm on each side \\
+Domain (incl. PML) & $35 \times 68 \times 20$ cm & from the origin to $\pm$(largest horn coordinate + 20 cm, rounded up to a whole cm) along each axis \\
 PML thickness & 5 cm on all sides & 1 cm on all sides \\
 Source & broadband pulse in the cable & continuous-wave $E_y$ source in the back cavity, one frequency per run \\
 Run time & 300 $a/c$ (10.0 ns) & 100 $a/c$ (3.3 ns) \\
