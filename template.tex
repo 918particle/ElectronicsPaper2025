@@ -287,14 +287,14 @@ An interesting facet of RF antenna fabrication arose after 3D printing our units
 \subsection{Cross-Polarization Ratios}
 \label{sec:results_3}
 
-The cross-polarization results are shown in Fig. \ref{fig:7}.  The cross-polarization ratio was measured with the 3D printed RF horns and LPDA arranged in the same S21 configuration as the radiation pattern data.  The cross-polarization angle was measured with an electronic level.  The prediction for the dependence of received power versus cross-polarization angle is known from optics and antenna theory.  Let $P_{\rm r}$ be the received power, $P_{\rm t}$ be the transmitted power, and $\theta$ be the cross-polarization angle.  These are related by
+The cross-polarization results are shown in Fig. \ref{fig:7}.  The cross-polarization ratio was measured with two 3D printed horns in the same S21 configuration as the radiation pattern measurements.  The cross-polarization angle was measured with an electronic level.  The prediction for the dependence of received power versus cross-polarization angle is known from optics and antenna theory.  Let $P_{\rm r}$ be the received power, $P_{\rm t}$ be the transmitted power, and $\theta$ be the cross-polarization angle.  These are related by
 
 \begin{equation}
 P_{\rm r} = P_{\rm t} \cos^2\theta \label{eq:4}
 \end{equation}
 
 \noindent
-When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results for HORN1 at 5.8 GHz are shown in Fig. \ref{fig:7}, and show good agreement with Eq. \ref{eq:4}.  As the cross-polarization angle approaches 90 degrees, the prediction from Eq. \ref{eq:4} tends to negative infinity in dB.  In this regime we find a cross-polarization ratio of about -12 dB, which is comparable to the measured side-lobe-level ($\lesssim-15$ dB).  A good reference for Eq. \ref{eq:4} may be found in the section on polarization mismatch in \cite{balanis}.
+A good reference for Eq. \ref{eq:4} may be found in the section on polarization mismatch in \cite{balanis}. When normalized, the ratio $P_{\rm r}/P_{\rm t}$ in dB is equivalent to normalized S21.  The results shown in Fig. \ref{fig:7} (left) represent linear S21 versus $\theta$, binned into 1 GHz frequency bins, and the data in Fig. \ref{fig:7} (right) are averaged over frequency.  In general, both graphs show good agreement with Eq. \ref{eq:4}.  As the cross-polarization angle approaches 90 degrees, the prediction from Eq. \ref{eq:4} tends to 0, or negative infinity in dB.  At $\theta = 90$ degrees, some high frequency data points lie between the equivalent of -20 dB and -10 dB (0.01 and 0.1), while the low-frequency data points are closer to -30 dB (0.001).  However, the average result in Fig. \ref{fig:7} (right) at $\theta = 90$ degrees lies exactly at -20 dB (0.01).
 
 \begin{figure}
 \centering
