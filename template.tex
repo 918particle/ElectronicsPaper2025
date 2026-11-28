@@ -39,15 +39,17 @@
 
 \section{Introduction}
 
-Broadband RF antennas are ubiquitous tools within scientific instrumentation and communications.  Traditionally, these are designed with expensive, proprietary software packages \cite{hfss,xfdtd}.  Designs are fabricated by cutting metal with precision machine tools (subtractive manufacturing).  Compared to additive manufacturing techniques, subtractive manufacturing can be costly for rapid prototyping \cite{segoviaguerrero2025additive-29b,add_vs_sub}.  Open-source additive manufacturing boosts cost efficiency in both the design and fabrication, provided the 3D printing filament has sufficient conductivity.
+Broadband RF antennas are ubiquitous tools within scientific instrumentation and communications.  Traditionally, these are designed with expensive, proprietary software packages \cite{hfss,xfdtd}.  Designs are fabricated by cutting metal with precision machine tools (subtractive manufacturing).  Compared to additive manufacturing techniques, subtractive manufacturing can be costly for rapid prototyping \cite{segoviaguerrero2025additive-29b}.  Open-source additive manufacturing boosts cost efficiency in both the design and fabrication, provided the 3D printing filament has sufficient conductivity.  At higher RF frequencies, traditional metallic antenna fabrication is limited by cost as dimensional tolerances become smaller. In contrast, the cost of 3D-printed antennas decrease with increasing frequency, so 3D-printing become less expensive as frequency increases \cite{alkaraki2020mmwave-bcd}.
 
 Development of new RF antenna designs requires exploration of conductor shapes that set the boundary conditions for radiated signals.  Developing new shapes that meet design requirements has been aided by machine learning (ML) strategies \cite{gajbhiye2025comprehensive-fdb,goudos2016evolutionary-cc7,linden1999evolving-8c2}.  While mixing new ML algorithms into open CEM code is straightforward, incorporating them into proprietary software is often challenging.  Ideally, RF engineers would keep the  functionality of proprietary software, while retaining the flexibility to incorporate new ML techniques.  Creating a design process based on open CEM tools achieves this goal.
 
-Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  The key to the technique is that MEEP is written to account for the scale-invariance of Maxwell's Equations.  MEEP is normally used for designs with wavelengths at the $\mu$m scale.  Designs with cm wavelengths may be created by reinterpreting length units in MEEP.  Using this approach, J. C. Hanson produced RF phased array designs in two and three dimensions using MEEP functionality \cite{hanson2021broadband-cab}.  The designs included broadband RF horn elements in the [0.5-5] GHz bandwidth.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D printed \cite{meepcon_hanson}.
+Previously, J. C. Hanson (2021) demonstrated that the open-source MEEP software package may be used as an RF antenna design tool \cite{hanson2021broadband-cab}.  MEEP operates via the FDTD algorithm for Maxwell's Equations on a Yee lattice \cite{10.1016/j.cpc.2009.11.008}.  The key to the technique is that MEEP is written to account for the scale-invariance of Maxwell's Equations.  MEEP is normally used for designs with wavelengths at the $\mu$m scale.  Designs with cm wavelengths may be created by reinterpreting length units in MEEP.  Using this approach, J. C. Hanson produced RF phased array designs in two and three dimensions using MEEP functionality \cite{hanson2021broadband-cab}.  Further, J. C. Hanson demonstrated that open-source CAD software may be used to create complex designs that can be 3D printed \cite{meepcon_hanson}.
 
-In recent years, RF antenna systems have begun to be fabricated with 3D printing.  The authors of \cite{alkaraki2020mmwave-bcd} presented a hybrid strategy that combined traditional PCB fabrication, non-conductive 3D printing, and metallization of 3D printed structures.  The authors of \cite{yoo2022hollow-9a5} produced a waveguide-fed holographic beam-forming antenna using a dual print-head 3D printing system that combined non-conductive PLA supports with conductive filament.  The result was a steerable beam at frequencies near 10 GHz.  The authors of \cite{yurduseven2017computational-82f} produced a Mills-Cross, frequency-diverse, metasurface antenna capable of electronic steering in the K-band, using a mixture of non-conductive PLA and conductive filament.  Finally, the authors of \cite{alkaraki2025lowcost-d32} fabricated RF horns with a 123.5\% fractional bandwidth after coating 3D printed polymer with silver paint.
+In recent years, RF antennas have begun to be fabricated with 3D printing.  The authors of \cite{alkaraki2020mmwave-bcd} presented a hybrid strategy that combined traditional PCB fabrication, non-conductive 3D printing, and metallization of 3D printed structures.  The authors of \cite{yoo2022hollow-9a5} produced a waveguide-fed holographic beam-forming antenna using a dual print-head 3D printing system that combined non-conductive PLA supports with conductive filament.  The result was a steerable beam at frequencies near 10 GHz.  The authors of \cite{yurduseven2017computational-82f} produced a Mills-Cross, frequency-diverse, metasurface antenna with 41\% fractional bandwidth, capable of electronic steering in the K-band, using a mixture of non-conductive PLA and conductive filament.  The authors of \cite{alkaraki2025lowcost-d32} fabricated three RF horns using non-conductive 3D printer filament, and painted them with conductive paint.  The resulting standard gain horns had fractional bandwidths of 42\%, 40\%, and 37.8\% after coating 3D printed polymer with silver paint.  Finally, using a similar technique the authors of \cite{betancourt2017additive-b05} managed to achieve a 140\% fractional bandwidth.
 
-In this work, we present the first open-source, broadband, 3D printed set of RF horns, designed with MEEP and fabricated entirely from conductive 3D-printer filament.  Note that the authors are MEEP users, but not MEEP developers.  Where appropriate, we have cited the creators of MEEP \cite{10.1016/j.cpc.2009.11.008}.  In Sec. \ref{sec:mat_meth}, we explain the parametric design, CAD, and fabrication techniques.  In Sec. \ref{sec:results}, we show that the $\mathbf{E}$-plane and $\mathbf{H}$-plane radiation patterns, the VSWR, and the cross-polarization ratios match predictions.  In Sec. \ref{sec:conc}, we discuss the limitations of our analysis, summarize key results, and discuss applications and future directions for this research.
+In this work, which follows the procedure proposed in \cite{meepcon_hanson}, we present the first open-source, broadband, 3D-printed set of RF horns designed with MEEP and fabricated in a single step from conductive 3D-printer filament for approximately \$200-\$250 USD per horn.  Note that the authors are MEEP users, but not MEEP developers.  MEEP developers have published a comprehensive review \cite{10.1016/j.cpc.2009.11.008}.  Note also that MEEP is but one of several open-source CEM software packages that may be used to accomplish this work.  A helpful review of open-source CEM solutions, including openEMS, is found in \cite{fedeli2019open-source-8bb}. In Sec. \ref{sec:mat_meth}, we explain the parametric design, CAD, and fabrication techniques.
+
+In Sec. \ref{sec:results}, we show that the VSWR, radiation patterns, and the cross-polarization ratios match predictions.  In Sec. \ref{sec:conc}, we discuss the limitations of our analysis, summarize key results, and discuss applications and future directions for this research.
 
 \section{Methods and Materials}
 \label{sec:mat_meth}
@@ -72,7 +74,7 @@ The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Fig. \
 \begin{figure}
 \centering
 \includegraphics[width=0.95\textwidth]{CAD_path.pdf}
-\caption{\label{fig:1} Flow diagram for the open-source design and fabrication process.}
+\caption{\label{fig:1} Flow diagram for the open-source design and fabrication process.  The ML-optimization step is not yet implemented in this work, but will be included in the future.}
 \end{figure}
 
 \begin{figure}
@@ -80,7 +82,7 @@ The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Fig. \
 \includegraphics[width=0.28\textwidth]{CAD_1.png}
 \includegraphics[width=0.33\textwidth]{snapshot2.png}
 \includegraphics[width=0.33\textwidth]{snapshot3.png}
-\caption{\label{fig:1a} (Left) The kLayout CAD design for the RF horn (top view), with a coaxial cable attached.  The $x$-direction is to the right, the $y$-direction is up, and the $z$-direction is out of the page.  The white ruler gives 16.741 cm. (Middle and Right) The RF horn and cable model from alternate angles.}
+\caption{\label{fig:1a} (Left) The kLayout CAD design for the RF horn (top view), with a coaxial cable attached.  The $x$-direction is to the right, the $y$-direction is up, and the $z$-direction is out of the page.  The white ruler gives 16.5 cm. (Middle and Right) The RF horn and cable model from alternate angles.}
 \end{figure}
 
 \begin{table}
@@ -91,7 +93,7 @@ The function $f(x)$ in Equation \ref{eq:1} describes the upper surface in Fig. \
 \midrule
 Cavity Length & $c_l$ & 0.77 \\
 Cavity Width & $c_w$ & 1.00 \\
-Surface Length & $s_l$ & 16.52 \\
+Surface Length & $s_l$ & 16.5 \\
 Opening Width & $w$ & 9.59 \\
 Height & $z$ & 2.5 \\
 \bottomrule
@@ -171,7 +173,7 @@ The network analyzer, coaxial cables, and connectors were used to measure S11, S
 \centering
 \includegraphics[width=0.25\textwidth,angle=90]{antenna_1.jpg}
 \includegraphics[width=0.45\textwidth]{antenna_2.jpg}
-\caption{\label{fig:3} Views of an example of our 3D printed RF horns.  The horn is approximately 16 cm long.}
+\caption{\label{fig:3} Views of an example of our 3D printed RF horns.  The horn is 16.5 cm long.}
 \end{figure}
 
 \begin{table*}[t]
@@ -353,7 +355,7 @@ This work establishes an open-source design and fabrication process that combine
 
 The measurements also identify several fabrication effects that are important for directly printed conductive antennas. Surface finishing was found to have a measurable effect on transmission: smoothing excess conductive filament from the interior horn surfaces increased the measured $S_{21}$ by several dB over portions of the band. The gain measurements further demonstrate that impedance matching alone does not determine antenna performance. HORN1 exhibits substantially larger realized gain than HORN2-HORN8 despite having a poorer VSWR over portions of the band, indicating that differences in radiation efficiency are important. One likely cause is the variation in manufacturer-reported bulk conductivity of the Electrifi material. Our results show that direct conductive printing can produce broadband RF antennas with predictable properties, while also emphasizing that material characteristics and post-processing remain important details.
 
-The next step in this research is to assemble the printed horns into a broadband phased array. Using a 1-to-8 RF power splitter and programmable phase shifters, we plan to demonstrate beam steering with both $1\times8$ and $2\times4$ array configurations. These experiments will test whether the broadband behavior demonstrated by the individual horns can be retained when the elements are incorporated into an array. Following demonstration of phase-controlled steering, we plan to investigate the frequency-dependent behavior of the array over its full operating bandwidth. In particular, wideband arrays can develop frequency-dependent grating lobes whose directions change as the operating frequency is swept. The simultaneous use of a conventional phase-steered low-frequency beam and a frequency-dependent higher-order beam may provide an additional degree of freedom for broadband sensing. Successful demonstration of these capabilities would represent a significant step toward a directly 3D-printed, broadband RF phased-array system.
+The next step in this research is to assemble the printed horns into a broadband phased array. Using a 1-to-8 RF power splitter and programmable phase shifters, we plan to demonstrate beam steering with both $1\times8$ and $2\times4$ array configurations. These experiments will test whether the broadband behavior demonstrated by the individual horns can be retained when the elements are incorporated into an array. Following demonstration of phase-controlled steering, we plan to investigate the frequency-dependent behavior of the array over its full operating bandwidth. In particular, wideband arrays can develop frequency-dependent grating lobes whose directions change as the operating frequency is swept. The simultaneous use of a conventional phase-steered low-frequency beam and a frequency-dependent higher-order beam may provide an additional degree of freedom for broadband sensing. Successful demonstration of these capabilities would represent a significant step toward a directly 3D-printed, broadband RF phased-array system costing approximately \$200 - \$250 USD per horn.
 
 \vspace{6pt} 
 
@@ -377,7 +379,13 @@ LPDA & Log-periodic Dipole Array \\
 MEEP & MIT Electromagnetic Equation Propagator \\
 NEEC & Naval Engineering Education Consortium \\
 NSWC Corona & Naval Surface Warfare Center, Corona Division \\
-RF & Radio-frequency
+RF & Radio-frequency \\
+VSWR & Voltage Standing Wave Ratio \\
+FDTD & Finite Difference Time Domain \\
+GDSII & Graphic Design System II \\
+SMA & SubMiniature Version A connector \\
+VNA & Vector Network Analyzer \\
+USD & United States Dollars
 \end{tabular}
 }
 
