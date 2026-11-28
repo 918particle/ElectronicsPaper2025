@@ -115,18 +115,18 @@ The feed in the MEEP VSWR model follows the dimensions of the Pasternack PE4099 
 
 \begin{table}[ht]
 \centering
-\caption{\label{tab:meep_settings} MEEP simulation settings. The MEEP length unit is $a = 1$ cm.}
+\caption{\label{tab:meep_settings} MEEP simulation settings. The MEEP length unit is $a = 1$ cm, $\varepsilon_r$ is the relative permittivity, and $\sigma_D$ refers to \texttt{D\_conductivity} discussed in the text.}
 \small
 \begin{tabular}{lll}
 \toprule
  & \textbf{VSWR (Fig. \ref{fig:vswr_lab})} & \textbf{Rad. patterns (Figs. \ref{fig:rad_pattern1}, \ref{fig:rad_pattern2})} \\
 \midrule
-Horn walls & \texttt{mp.Medium} & \texttt{mp.metal} \\
-Back cavity & \texttt{mp.Medium} & \texttt{mp.metal} \\
+Horn walls & \texttt{mp.Medium} $\varepsilon_r = 1.0$, $\sigma_D = 3.77e4$ & \texttt{mp.metal} \\
+Back cavity & \texttt{mp.Medium} $\varepsilon_r = 1.0$, $\sigma_D = 3.77e4$ & \texttt{mp.metal} \\
 Coaxial cable & cylindrical coax & not modeled \\
  & \texttt{mp.metal} pin and outer conductor \\
  & pin 1.27 mm, dielectric 4.11 mm diameter, \\
- & dielectric $\varepsilon_r = 2.0$, $\sigma_D = 0.01$ & \\
+ & \texttt{mp.Medium} $\varepsilon_r = 2.0$, $\sigma_D = 0.01$ & \\
 Resolution & 20 pixels per cm & 10 pixels per cm \\
 Domain (incl. PML) & $35 \times 68 \times 20$ cm & $60 \times 60 \times 30$ cm \\
 PML thickness & 5 cm on all sides & 1 cm on all sides \\
