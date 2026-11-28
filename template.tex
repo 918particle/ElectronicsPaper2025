@@ -111,56 +111,31 @@ In the MEEP model, a broadband excitation is launched through the modeled coaxia
 
 \subsubsection{Feed Model}
 
-The feed in the MEEP VSWR model follows the dimensions of the Pasternack PE4099 SMA connector.  The coaxial cable runs along the $y$-direction into the back cavity of the horn.  Its center pin is a \texttt{mp.metal} cylinder 1.27 mm in diameter, surrounded by a dielectric cylinder 4.11 mm in diameter with $\varepsilon_r = 2.0$ and \texttt{D\_conductivity} $= 0.02$ in MEEP units.  The outer conductor is modeled as \texttt{mp.metal} surrounding the dielectric, and the far end of the cable is closed with a metal cap.  These dimensions give a characteristic impedance of about 50 $\Omega$.  The broadband pulse is launched inside the cable, 37.6 cm from the back cavity, as a radial electric field across the dielectric (opposite-signed $E_x$ and $E_z$ sources on either side of the pin), which approximates the field pattern of the coaxial TEM mode.  A \texttt{FluxMonitor} placed across the cable between the source and the horn records the incident and reflected power.  In the first run, the cable continues into the PML, so the pulse is absorbed rather than reflected.  In the second run, the outer conductor and dielectric end at the wall of the back cavity, and the center pin continues 5 mm into the cavity as a probe, close to the pin length in the fabricated horns.  The pin does not touch the opposite cavity wall.  The field launched by the pin into the cavity then travels into the flared horn.
+The feed in the MEEP VSWR model follows the dimensions of the Pasternack PE4099 SMA connector.  The coaxial cable is connnected to the the horn cavity with a MEEP \texttt{mp.metal} (ideal conductivity) cylindrical center pin 1.27 mm in diameter, surrounded by a dielectric cylinder 4.11 mm in diameter with $\varepsilon_r = 2.0$ and \texttt{D\_conductivity} $= 0.01$ in MEEP units.  The outer conductor is modeled as \texttt{mp.metal}, and the far end of the cable is closed with a metal cap.  These dimensions approximate the RF cables we used in our measurements.  To model reflections that characterize S11, a broadband pulse is launched 37.6 cm from the horn cavity, approximating the coaxial TEM mode.  For normalized radiation pattern calculations, a continuous wave RF source is placed inside the cavity and the cable model is not used.  The MEEP settings are summarized in Tab. \ref{tab:meep_settings}.
 
-% Possible additions, not checked yet:
-% - Dominant mode: the field from the pin is along y; the 2.5 cm inner height of the cavity would give a cutoff
-%   near 6 GHz for the lowest mode with that field direction [check before stating].
-% - At 20 pixels per cm the pin is about 2.5 cells across, and the pulse in the cable travels at about 0.60c
-%   instead of the ideal 0.707c for epsilon_r = 2.0, which is part of why the result is not yet converged in resolution.
-% - Reviewer 2 also asks for the simulated field distribution: a field snapshot in the cavity and throat at a few
-%   frequencies could be added as a figure (needs a new run).
-
-The MEEP settings for the VSWR and radiation pattern calculations are listed in Tab. \ref{tab:meep_settings}.
-
-% Draft for Reviewer 1, comment 6: material model, resolution, PML, domain size, convergence.
-% MEEP length unit a = 1 cm, so a frequency f in MEEP units is f[GHz]/30 and one time unit is a/c = 33.4 ps.
-% Items marked [check] need confirming before this goes in the paper.
-% The VSWR column assumes the MEEP curve in Fig. vswr_lab is from the resolution 20 run (GPU, smaller domain) [check].
-% The radiation pattern column is from the old-main branch of 918particle/Antenna-MEEP-project (the branch used for the
-% paper's patterns): horn_w_cable.py (resolution = 10) and plan.py (radiation pattern part: mp.metal back plug, sides, top
-% and bottom from test.gds, no cable, CW Ey source on the source layer, cell 60 x 60 x 30, PML 1, until=100, no
-% eps_averaging argument).
 \begin{table}[ht]
 \centering
 \caption{\label{tab:meep_settings} MEEP simulation settings. The MEEP length unit is $a = 1$ cm.}
 \small
-\begin{tabular}{p{0.2\textwidth}p{0.4\textwidth}p{0.32\textwidth}}
+\begin{tabular}{lll}
 \toprule
- & \textbf{VSWR (Fig. \ref{fig:vswr_lab})} & \textbf{Radiation patterns (Figs. \ref{fig:rad_pattern1}, \ref{fig:rad_pattern2})} \\
+ & \textbf{VSWR (Fig. \ref{fig:vswr_lab})} & \textbf{Rad. patterns (Figs. \ref{fig:rad_pattern1}, \ref{fig:rad_pattern2})} \\
 \midrule
-Horn walls & Electrifi, \texttt{mp.Medium(epsilon=1, D\_conductivity=}$\sigma_D$\texttt{)} & \texttt{mp.metal} \\
- & $\sigma_D = 3.77\times10^{4}$ (10,000 S m$^{-1}$) [check] & \\
-Back cavity & \texttt{mp.metal} & \texttt{mp.metal} \\
-Coaxial cable & round coax, \texttt{mp.metal} pin and outer conductor; & not modeled \\
- & pin 1.27 mm, dielectric 4.11 mm diameter, $\varepsilon_r = 2.0$, $\sigma_D = 0.02$ & \\
-Resolution & 20 pixels per cm (0.5 mm cells) & 10 pixels per cm (1 mm cells) \\
+Horn walls & \texttt{mp.Medium} & \texttt{mp.metal} \\
+Back cavity & \texttt{mp.Medium} & \texttt{mp.metal} \\
+Coaxial cable & cylindrical coax & not modeled \\
+ & \texttt{mp.metal} pin and outer conductor \\
+ & pin 1.27 mm, dielectric 4.11 mm diameter, \\
+ & dielectric $\varepsilon_r = 2.0$, $\sigma_D = 0.01$ & \\
+Resolution & 20 pixels per cm & 10 pixels per cm \\
 Domain (incl. PML) & $35 \times 68 \times 20$ cm & $60 \times 60 \times 30$ cm \\
 PML thickness & 5 cm on all sides & 1 cm on all sides \\
-Source & broadband pulse in the cable & continuous-wave $E_y$ source in the back cavity, one frequency per run \\
+Source & broadband pulse in the cable & CW source in cavity \\
 Run time & 300 $a/c$ (10.0 ns) & 100 $a/c$ (3.3 ns) \\
 Sub-pixel averaging & off & on (MEEP default) \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-% Convergence check (possible text for the paper):
-% Domain size: the VSWR computed in the 35 x 68 x 20 cm domain agrees with the full 68 x 68 x 30 cm domain
-% to within 0.0003 in VSWR from 0 to 18 GHz at resolution 20.
-% Resolution: going from 10 to 20 pixels per cm changes the result (the pulse speed in the coax, with its 1.27 mm pin,
-% goes from 0.40c to 0.60c, ideal 0.707c), so the VSWR is not yet converged in resolution; a run at 30 pixels
-% per cm would be needed to show it [not run].
-% Run time: 115 a/c was too short for the echo to return through the coax; 300 a/c is used [a longer run as a check not done].
 
 \subsubsection{Radiation Pattern Calculations}
 
